@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% load i18n static core_tags %}
+
+{% block content %}
+  <div id="loader">
+    <img src="{% static 'img/loader.svg' %}" alt="{% translate 'Loading' %}..." />
+  </div>
+
+  <nav id="navbar">
+    <a id="show-dashboard" href="#dashboard">
+      <img src="{% static 'img/favicon.png' %}" width="30" height="30" />
+      {% translate "Helios" %}
+    </a>
+  </nav>
+
+  <div id="container" class="container"></div>
+
+  <button id="show-add-shot-item-form">+</button>
+
+  {% include "handlebars/register.html" %}
+  {% include "handlebars/login.html" %}
+  {% include "handlebars/dashboard.html" %}
+  {% include "handlebars/settings.html" %}
+  {% include "handlebars/add_shot_item.html" %}
+{% endblock %}

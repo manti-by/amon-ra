@@ -1,0 +1,18 @@
+version: '3.3'
+services:
+
+  helios-django:
+    network_mode: host
+    image: mantiby/helios:latest
+    container_name: helios-django
+    restart: always
+    ports:
+      - "8053:8053"
+    volumes:
+      - /home/manti/www/helios.manti.by/src/:/srv/helios/src/
+      - /home/manti/www/helios.manti.by/data/:/srv/helios/data/
+      - /home/manti/www/helios.manti.by/log/:/var/log/helios/
+      - /home/manti/www/helios.manti.by/static/:/srv/helios/static/
+      - /home/manti/www/helios.manti.by/media/:/srv/helios/media/
+    environment:
+      - DJANGO_SETTINGS_MODULE=helios.settings.prod
