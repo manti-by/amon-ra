@@ -1,6 +1,6 @@
 import { Api } from "./library/api.js"
 import { _ } from "./library/translate.js"
-import { today, registerHandlebarsHelpers, installServiceWorker } from "./library/utils.js"
+import { registerHandlebarsHelpers, installServiceWorker } from "./library/utils.js"
 
 import { CenteredWidget } from "./widgets/centered.js"
 import { LoaderWidget } from "./widgets/loader.js"
