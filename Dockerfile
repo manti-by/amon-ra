@@ -20,4 +20,4 @@ WORKDIR /srv/helios/src/
 
 # Run
 ENV DJANGO_SETTINGS_MODULE=helios.settings.prod
-CMD exec gunicorn helios.wsgi:application --bind 0.0.0.0:8053 --workers 2
+CMD exec gunicorn helios.wsgi:application --bind 0.0.0.0:8101 --workers 2
