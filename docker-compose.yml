@@ -7,14 +7,14 @@ services:
     image: mantiby/helios:latest
     container_name: helios-django
     ports:
-      - 8053:8053
+      - 8101:8101
     volumes:
-      - /home/manti/www/helios.manti.by/src/:/srv/helios/src/
-      - /mnt/nostromo/www/helios/data/:/var/lib/helios/data/
+      - /home/manti/www/helios.manti.by/helios/:/srv/helios/src/
+      - /home/manti/www/helios.manti.by/data/:/var/lib/helios/data/
       - /mnt/nostromo/www/helios/static/:/var/lib/helios/static/
       - /mnt/nostromo/www/helios/media/:/var/lib/helios/media/
       - /mnt/nostromo/www/helios/log/:/var/log/helios/
     environment:
       - DJANGO_SETTINGS_MODULE=helios.settings.prod
     command: |
-      gunicorn helios.wsgi:application --bind 0.0.0.0:8053 --workers 2 --log-file /var/log/helios/wsgi.log
+      gunicorn helios.wsgi:application --bind 0.0.0.0:8101 --workers 2 --log-file /var/log/helios/wsgi.log

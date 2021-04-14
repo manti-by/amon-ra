@@ -19,5 +19,6 @@ RUN useradd -m -s /bin/bash -d /home/manti manti && \
   chown -R manti:manti /srv/helios/src/ /var/lib/helios/ /var/log/helios/
 
 # Run
+USER manti
 WORKDIR /srv/helios/src/
 CMD python manage.py runserver
