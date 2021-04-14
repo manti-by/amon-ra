@@ -13,7 +13,6 @@ class SensorDictFactory(factory.Factory):
         "pydecimal",
         left_digits=5,
         right_digits=2,
-        positive=True,
         min_value=0,
         max_value=100,
     )
@@ -21,7 +20,6 @@ class SensorDictFactory(factory.Factory):
         "pydecimal",
         left_digits=5,
         right_digits=2,
-        positive=True,
         min_value=0,
         max_value=100,
     )
@@ -29,7 +27,6 @@ class SensorDictFactory(factory.Factory):
         "pydecimal",
         left_digits=5,
         right_digits=2,
-        positive=True,
         min_value=0,
         max_value=100,
     )
@@ -44,7 +41,6 @@ class SensorFactory(DjangoModelFactory):
         "pydecimal",
         left_digits=5,
         right_digits=2,
-        positive=True,
         min_value=0,
         max_value=100,
     )
@@ -52,7 +48,6 @@ class SensorFactory(DjangoModelFactory):
         "pydecimal",
         left_digits=5,
         right_digits=2,
-        positive=True,
         min_value=0,
         max_value=100,
     )
@@ -60,7 +55,6 @@ class SensorFactory(DjangoModelFactory):
         "pydecimal",
         left_digits=5,
         right_digits=2,
-        positive=True,
         min_value=0,
         max_value=100,
     )

@@ -8,13 +8,13 @@ ALLOWED_HOSTS = ["127.0.0.1", "helios.manti.by"]
 
 BASE_URL = "https://helios.manti.by"
 
-STATIC_ROOT = "/srv/helios/static/"
-MEDIA_ROOT = "/srv/helios/media/"
+STATIC_ROOT = "/var/lib/helios/static/"
+MEDIA_ROOT = "/var/lib/helios/media/"
 
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3",
-        "NAME": "/srv/helios/data/db.sqlite3",
+        "NAME": "/var/lib/helios/data/db.sqlite3",
     }
 }
 
@@ -30,28 +30,27 @@ LOGGING = {
     "disable_existing_loggers": False,
     "handlers": {
         "app": {
-            "level": "WARNING",
+            "level": "DEBUG",
             "class": "logging.FileHandler",
             "filename": "/var/log/helios/app.log",
         },
         "django": {
-            "level": "WARNING",
+            "level": "DEBUG",
             "class": "logging.FileHandler",
             "filename": "/var/log/helios/django.log",
         },
-        "console": {"level": "DEBUG", "class": "logging.StreamHandler"},
         "null": {"class": "logging.NullHandler"},
     },
     "loggers": {
         "": {
             "handlers": ["app"],
-            "level": "WARNING",
+            "level": "DEBUG",
             "propagate": True,
             "formatter": "verbose",
         },
         "django": {
             "handlers": ["django"],
-            "level": "WARNING",
+            "level": "DEBUG",
             "propagate": True,
             "formatter": "simple",
         },
