@@ -1,7 +1,7 @@
-Helios
+Helios Swarm
 ==========================================================
 
-Web dashboard for [Apollo IoT module](https://github.com/manti-by/apollo)
+Web dashboard for [Apollo Swarm](https://github.com/manti-by/apollo/tree/swarm)
 
 
 Setup:
@@ -9,13 +9,20 @@ Setup:
 
 1. Install app requirements
 
-        $ pip install -r requirements/dev.txt
-        
-2. Collect static, run migrations and create super user
+    ```bash
+    $ pip install -r requirements.txt
+    ```
 
-        $ ./manage.py collectstatic --no-input
-        $ ./manage.py migrate
-    
+2. Collect static, run migrations and create superuser
+
+    ```bash
+    $ ./manage.py collectstatic --no-input
+    $ ./manage.py createsuperuser
+    $ ./manage.py migrate
+    ```
+
 3. Run dev server
 
-        $ ./manage.py runserver
+    ```bash
+    $ ./manage.py runserver
+    ```
