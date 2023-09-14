@@ -1,4 +1,4 @@
-FROM python:3.9-slim
+FROM python:3.11-slim
 
 # Add directories
 RUN mkdir -p /srv/helios/src/ && \
@@ -8,10 +8,9 @@ RUN mkdir -p /srv/helios/src/ && \
     mkdir -p /var/log/helios/
 
 # Install any needed packages specified in requirements
-COPY requirements/base.txt /tmp/base.txt
-COPY requirements/prod.txt /tmp/prod.txt
+COPY requirements.txt /tmp/requirements.txt
 RUN pip install --trusted-host pypi.org --no-cache-dir --upgrade pip && \
-    pip install --trusted-host pypi.org --no-cache-dir -r /tmp/prod.txt
+    pip install --trusted-host pypi.org --no-cache-dir -r /tmp/requirements.txt
 
 # Add default user and update permissions
 RUN useradd -m -s /bin/bash -d /home/manti manti && \

@@ -25,12 +25,10 @@
   padding: 1rem;
 }
 
-#register-form input,
 #login-form input {
   width: calc(100% - 1.5rem);
 }
 
-#register-form button[type=submit],
 #login-form button[type=submit] {
   margin-right: .25rem;
 }

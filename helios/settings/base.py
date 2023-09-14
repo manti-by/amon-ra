@@ -11,7 +11,6 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 import os
 
-from env_utils import get_int, get_env, get_bool, get_decimal  # noqa
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -22,10 +21,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/latest/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = get_env("SECRET_KEY", "secret-key")
+SECRET_KEY = os.getenv("SECRET_KEY", "very-secret-key")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = get_bool("DEBUG", True)
+DEBUG = True
 
 ALLOWED_HOSTS = ("*",)
 
@@ -43,7 +42,6 @@ INSTALLED_APPS = [
     "rest_framework",
     "rest_framework.authtoken",
     "helios.apps.core",
-    "helios.apps.profiles",
     "helios.apps.sensors",
 ]
 
@@ -88,7 +86,7 @@ SITE_ID = 1
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3",
-        "NAME": "/srv/helios/db.sqlite3",
+        "NAME": "/var/lib/helios/data/db.sqlite3",
     }
 }
 
@@ -122,11 +120,11 @@ AUTH_PASSWORD_VALIDATORS = [
 
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 
-EMAIL_HOST = get_env("EMAIL_HOST", "localhost")
-EMAIL_PORT = get_int("EMAIL_PORT", 25)
-EMAIL_HOST_USER = get_env("EMAIL_HOST_USER")
-EMAIL_HOST_PASSWORD = get_env("EMAIL_HOST_PASSWORD")
-EMAIL_USE_TLS = get_bool("EMAIL_USE_TLS", False)
+EMAIL_HOST = os.getenv("EMAIL_HOST", "localhost")
+EMAIL_PORT = os.getenv("EMAIL_PORT", 25)
+EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
+EMAIL_USE_TLS = os.getenv("EMAIL_USE_TLS", False)
 
 DEFAULT_EMAIL_FROM = "helios@manti.by"
 
@@ -146,7 +144,7 @@ LANGUAGES = (
     ("en-us", _("English")),
 )
 
-LOCALE_PATHS = (os.path.join(BASE_DIR, "apps", "core", "locale"),)
+LOCALE_PATHS = (BASE_DIR / "apps" / "core" / "locale",)
 
 TIME_ZONE = "UTC"
 
@@ -165,12 +163,12 @@ STATICFILES_FINDERS = [
     "django.contrib.staticfiles.finders.AppDirectoriesFinder",
 ]
 
-STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"),)
+STATICFILES_DIRS = (BASE_DIR / "static",)
 
-STATIC_ROOT = "/srv/helios/static/"
+STATIC_ROOT = "/var/lib/helios/static/"
 STATIC_URL = "/static/"
 
-MEDIA_ROOT = "/srv/helios/media/"
+MEDIA_ROOT = "/var/lib/helios/media/"
 MEDIA_URL = "/media/"
 
 
@@ -180,9 +178,11 @@ MEDIA_URL = "/media/"
 REST_FRAMEWORK = {
     "PAGE_SIZE": 15,
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
-    "DEFAULT_PERMISSION_CLASSES": ["rest_framework.permissions.IsAuthenticated"],
+    "DEFAULT_PERMISSION_CLASSES": ("rest_framework.permissions.IsAuthenticated",),
     "DEFAULT_AUTHENTICATION_CLASSES": (
         "rest_framework.authentication.TokenAuthentication",
-        "rest_framework.authentication.SessionAuthentication",
     ),
 }
+
+
+DEFAULT_AUTO_FIELD = "django.db.models.AutoField"

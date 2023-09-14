@@ -4,5 +4,9 @@
 
 .pytest_cache/
 
+helios/settings/local.py
+
 *.pyc
 *~
+
+.python-version

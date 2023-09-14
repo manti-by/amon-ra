@@ -9,14 +9,13 @@
 
   <nav id="navbar">
     <a id="show-dashboard" href="#dashboard">
-      <img src="{% static 'img/favicon.png' %}" width="30" height="30" />
+      <img src="{% static 'img/favicon.png' %}" width="30" height="30" alt="Logo" />
       {% translate "Helios" %}
     </a>
   </nav>
 
   <div id="container" class="container"></div>
 
-  {% include "handlebars/register.html" %}
   {% include "handlebars/login.html" %}
   {% include "handlebars/dashboard.html" %}
 {% endblock %}

@@ -15,8 +15,7 @@ messages:
 
 check:
 	flake8 helios/
-	black --target-version py38 helios/
-	standard --fix helios/static/js/
+	black helios/
 
 test:
 	pytest helios/

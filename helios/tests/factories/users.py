@@ -21,4 +21,3 @@ class UserFactory(DjangoModelFactory):
     email = factory.Faker("email")
     username = factory.LazyAttribute(lambda x: x.email)
     password = factory.PostGenerationMethodCall("set_password", DEFAULT_USER_PASSWORD)
-    profile = factory.SubFactory("helios.tests.factories.profiles.ProfileFactory")
