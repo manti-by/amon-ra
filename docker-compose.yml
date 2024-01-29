@@ -1,11 +1,24 @@
 version: '3.3'
 services:
 
-  helios-django:
+  redis:
+    container_name: helios-redis
+    image: redis:latest
     restart: always
-    network_mode: host
-    image: mantiby/helios:latest
+
+  postgres:
+    container_name: helios-postgres
+    image: postgres:latest
+    restart: always
+    environment:
+      - POSTGRES_DB=helios
+      - POSTGRES_USER=helios
+      - POSTGRES_PASSWORD=helios
+
+  django:
     container_name: helios-django
+    image: mantiby/helios:latest
+    restart: always
     ports:
       - 8101:8101
     volumes:

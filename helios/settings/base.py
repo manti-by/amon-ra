@@ -83,10 +83,16 @@ SITE_ID = 1
 # Database
 # https://docs.djangoproject.com/en/latest/ref/settings/#databases
 
+POSTGRES_HOST = os.getenv("POSTGRES_HOST", "localhost")
+
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": "/var/lib/helios/data/db.sqlite3",
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": "helios",
+        "USER": "helios",
+        "PASSWORD": "helios",
+        "HOST": POSTGRES_HOST,
+        "PORT": 5432,
     }
 }
 
@@ -94,7 +100,17 @@ DATABASES = {
 # Cache backend
 # https://docs.djangoproject.com/en/latest/topics/cache/
 
-CACHES = {"default": {"BACKEND": "django.core.cache.backends.dummy.DummyCache"}}
+REDIS_HOST = os.getenv("REDIS_HOST", "localhost")
+
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": f"redis://{REDIS_HOST}:6379",
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        },
+    }
+}
 
 
 # Password validation
