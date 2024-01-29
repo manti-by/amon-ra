@@ -1,7 +1,0 @@
-[flake8]
-exclude =
-    .git,
-    __pycache__
-    helios/settings/
-max-line-length = 120
-max-complexity = 14

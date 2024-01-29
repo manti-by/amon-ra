@@ -55,7 +55,7 @@ class TestSensorsView:
         response = self.client.post(self.url, self.data, format="json")
 
         assert response.status_code == status.HTTP_201_CREATED
-        assert response.data["name"] == self.data["name"]
+        assert response.data["sensor_id"] == self.data["sensor_id"]
         assert Decimal(response.data["temp"]) == self.data["temp"]
         assert Decimal(response.data["humidity"]) == self.data["humidity"]
         assert Sensor.objects.exists()

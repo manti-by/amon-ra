@@ -7,15 +7,14 @@ RUN mkdir -p /srv/helios/src/ && \
     mkdir -p /var/lib/helios/media/ && \
     mkdir -p /var/log/helios/
 
+# Add default user and update permissions
+RUN useradd -m -s /bin/bash -d /home/manti manti && \
+  chown -R manti:manti /srv/helios/src/ /var/lib/helios/ /var/log/helios/
+
 # Install any needed packages specified in requirements
 COPY requirements.txt /tmp/requirements.txt
 RUN pip install --trusted-host pypi.org --no-cache-dir --upgrade pip && \
     pip install --trusted-host pypi.org --no-cache-dir -r /tmp/requirements.txt
-
-# Add default user and update permissions
-RUN useradd -m -s /bin/bash -d /home/manti manti && \
-  mkdir -p /srv/helios/src/ /var/log/helios/ /var/lib/helios/static/ /var/lib/helios/media/ /var/lib/helios/data/ && \
-  chown -R manti:manti /srv/helios/src/ /var/lib/helios/ /var/log/helios/
 
 # Run
 USER manti

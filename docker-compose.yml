@@ -9,10 +9,10 @@ services:
     ports:
       - 8101:8101
     volumes:
-      - /home/manti/www/helios.manti.by/helios/:/srv/helios/src/
-      - /home/manti/www/helios.manti.by/data/:/var/lib/helios/data/
+      - /home/manti/www/helios/:/srv/helios/src/
       - /mnt/nostromo/www/helios/static/:/var/lib/helios/static/
       - /mnt/nostromo/www/helios/media/:/var/lib/helios/media/
+      - /mnt/nostromo/www/helios/data/:/var/lib/helios/data/
       - /mnt/nostromo/www/helios/log/:/var/log/helios/
     environment:
       - DJANGO_SETTINGS_MODULE=helios.settings.prod

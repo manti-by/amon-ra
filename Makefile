@@ -13,9 +13,15 @@ static:
 messages:
 	python manage.py makemessages -a
 
-check:
-	flake8 helios/
-	black helios/
-
 test:
 	pytest helios/
+
+check:
+	git add .
+	pre-commit run
+
+pip:
+	pip install -r requirements.txt
+
+update-requirements:
+	pcu requirements.txt -u
