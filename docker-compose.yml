@@ -27,7 +27,12 @@ services:
       - /mnt/nostromo/www/helios/media/:/var/lib/helios/media/
       - /mnt/nostromo/www/helios/data/:/var/lib/helios/data/
       - /mnt/nostromo/www/helios/log/:/var/log/helios/
+    depends_on:
+      - postgres
+      - redis
     environment:
       - DJANGO_SETTINGS_MODULE=helios.settings.prod
+      - POSTGRES_HOST=postgres
+      - REDIS_HOST=redis
     command: |
       gunicorn helios.wsgi:application --bind 0.0.0.0:8101 --workers 2 --log-file /var/log/helios/wsgi.log
