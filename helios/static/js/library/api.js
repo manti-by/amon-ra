@@ -1,10 +1,28 @@
-'use strict'
+"use strict"
 
 export class Api {
   constructor () {
     if (localStorage.getItem('token')) {
       this.token = localStorage.getItem('token')
     }
+  }
+
+  getSettings (on_success) {
+    fetch('/api/v1/settings/', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      async: true
+    }).then(response => {
+      if (response.status === 200) {
+        response.json().then(data => {
+          on_success(data)
+        })
+        return
+      }
+      console.error('Error loading settings data')
+    })
   }
 
   getSensors (on_success, on_error) {
@@ -53,6 +71,50 @@ export class Api {
         return
       }
       on_error()
+    })
+  }
+
+  saveSubscription (data) {
+    if (!this.token) {
+      console.log('Call api.login() first before calling api.getSensors()')
+      return
+    }
+
+    fetch('/api/v1/subscriptions/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Token ' + this.token
+      },
+      body: JSON.stringify(data),
+      async: true
+    }).then(response => {
+      if (response.status >= 400) {
+        console.error("Error saving subscription data")
+      }
+    })
+  }
+
+  deleteSubscription (data, on_success) {
+    if (!this.token) {
+      console.log('Call api.login() first before calling api.getSensors()')
+      return
+    }
+
+    fetch('/api/v1/subscriptions/', {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Token ' + this.token
+      },
+      body: JSON.stringify(data),
+      async: true
+    }).then(response => {
+      if (response.status >= 400) {
+        console.error("Error saving subscription data")
+        return
+      }
+      on_success()
     })
   }
 }

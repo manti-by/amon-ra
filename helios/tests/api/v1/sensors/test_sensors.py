@@ -13,7 +13,7 @@ from helios.tests.factories.users import UserFactory
 
 @pytest.mark.django_db
 class TestSensorsView:
-    @pytest.fixture(autouse=True)
+
     def setup_method(self):
         self.client = APIClient()
         self.url = reverse("api:v1:sensors:sensors")

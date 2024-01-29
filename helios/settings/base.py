@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     "rest_framework.authtoken",
     "helios.apps.core",
     "helios.apps.sensors",
+    "helios.apps.subscriptions",
 ]
 
 MIDDLEWARE = [
@@ -202,3 +203,9 @@ REST_FRAMEWORK = {
 
 
 DEFAULT_AUTO_FIELD = "django.db.models.AutoField"
+
+# Push Notifications
+# https://codelabs.developers.google.com/codelabs/push-notifications/
+
+PUSH_PUBLIC_KEY = os.getenv("PUSH_PUBLIC_KEY", None)
+PUSH_PRIVATE_KEY = os.getenv("PUSH_PRIVATE_KEY", None)

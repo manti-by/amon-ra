@@ -1,4 +1,4 @@
-'use strict'
+"use strict"
 
 export function _ (string) {
   return string
