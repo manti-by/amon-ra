@@ -12,7 +12,7 @@ class Command(BaseCommand):
             for subscription in user.subscriptions.all():
                 webpush(
                     subscription_info=subscription.serialize(),
-                    data=f"Test: Message",
+                    data=f"Test:Message",
                     vapid_private_key=settings.PUSH_PRIVATE_KEY,
                     vapid_claims={"sub": f"mailto:{settings.PUSH_EMAIL}"}
                 )

@@ -1,5 +1,16 @@
 const CACHE = "cache"
 
+self.addEventListener('push', (event) => {
+  const data = event.data.text().split(":");
+  const options = {
+    body: data[1],
+    icon: '/static/img/favicon.png',
+    badge: '/static/img/favicon.png'
+  }
+
+  event.waitUntil(self.registration.showNotification(data[0], options))
+})
+
 self.addEventListener("activate", (event) => {
   const cacheWhitelist = [CACHE]
 
