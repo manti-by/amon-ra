@@ -1,15 +1,15 @@
 FROM python:3.11-slim
 
 # Add directories
-RUN mkdir -p /srv/helios/src/ && \
-    mkdir -p /var/lib/helios/data/ && \
-    mkdir -p /var/lib/helios/static/ && \
-    mkdir -p /var/lib/helios/media/ && \
-    mkdir -p /var/log/helios/
+RUN mkdir -p /srv/amon-ra/src/ && \
+    mkdir -p /var/lib/amon-ra/data/ && \
+    mkdir -p /var/lib/amon-ra/static/ && \
+    mkdir -p /var/lib/amon-ra/media/ && \
+    mkdir -p /var/log/amon-ra/
 
 # Add default user and update permissions
 RUN useradd -m -s /bin/bash -d /home/manti manti && \
-  chown -R manti:manti /srv/helios/src/ /var/lib/helios/ /var/log/helios/
+  chown -R manti:manti /srv/amon-ra/src/ /var/lib/amon-ra/ /var/log/amon-ra/
 
 # Install any needed packages specified in requirements
 COPY requirements.txt /tmp/requirements.txt
@@ -18,5 +18,5 @@ RUN pip install --trusted-host pypi.org --no-cache-dir --upgrade pip && \
 
 # Run
 USER manti
-WORKDIR /srv/helios/src/
+WORKDIR /srv/amon-ra/src/
 CMD python manage.py runserver

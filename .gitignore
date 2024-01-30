@@ -4,7 +4,7 @@
 
 .pytest_cache/
 
-helios/settings/local.py
+amon_ra/settings/local.py
 
 *.pyc
 *~

@@ -1,7 +1,7 @@
-Helios Swarm
+Amon-ra server core application
 ==========================================================
 
-Web dashboard for [Apollo Swarm](https://github.com/manti-by/apollo/tree/swarm)
+Web dashboard for [ODIN](https://github.com/manti-by/odin) server.
 
 
 Setup:
@@ -10,28 +10,28 @@ Setup:
 1. Install python3, pip, virtualenv and sqlite3
 
     ```shell
-    $ sudo apt install -y python3-pip virtualenv sqlite3
+    $ sudo apt install -y python3-pip virtualenv
     ```
-   
+
 2. Create and activate virtualenv
 
     ```shell
-    $ virtualenv -p python3 --prompt=helios- /home/manti/venv
-    $ source /home/manti/venv/bin/activate
+    $ virtualenv -p python3 /home/ubuntu/venv
+    $ source /home/ubuntu/venv/bin/activate
     ```
-   
+
 3. Clone sources and install pip packages
 
     ```shell
-    $ mkdir /home/manti/app/
-    $ git clone -b swarm https://github.com/manti-by/helios.git app/
-    $ pip install -r app/requirements.txt
+    $ mkdir /home/ubuntu/app/
+    $ git clone https://github.com/manti-by/amon-ra.git app/
+    $ pip install -r requirements.txt
     ```
 
 4. Collect static, run migrations and create superuser
 
     ```bash
-    $ cd /home/manti/app/
+    $ cd /home/ubuntu/app/
     $ ./manage.py collectstatic --no-input
     $ ./manage.py createsuperuser
     $ ./manage.py migrate

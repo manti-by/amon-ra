@@ -1,0 +1,40 @@
+{% load i18n static core_tags %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, shrink-to-fit=no">
+
+    <meta name="theme-color" content="#064d69">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="application-name" content="{% translate 'amon_ra' %}">
+    <meta name="description" content="{% translate 'Web dashboard for IoT Apollo module' %}">
+
+    <title>{% block title %}{% translate "amon_ra" %}{% endblock %}</title>
+
+    <link href="{% static 'img/favicon.png' %}" rel="shortcut icon">
+
+    {% block open_graph %}
+      <meta property="og:type" content="website">
+      <meta property="og:title" content="{% translate 'amon_ra' %}">
+      <meta property="og:description" content="{% translate 'Web dashboard for Apollo IoT module' %}">
+      <meta property="og:image" content="{% static 'img/favicon.png' %}">
+    {% endblock %}
+
+    <link href="{% static 'css/reset.css' %}" rel="stylesheet" type="text/css" />
+    <link href="{% static 'css/base.css' %}" rel="stylesheet" type="text/css" />
+    <link href="{% static 'css/index.css' %}" rel="stylesheet" type="text/css" />
+    <link href="{% static 'css/dark.css' %}" rel="stylesheet" type="text/css" />
+  </head>
+
+  <body>
+    {% block content %}{% endblock content %}
+
+    <script type="text/javascript">
+      let MESSAGES = JSON.parse('{{ messages|messages_to_json|safe }}')
+    </script>
+    <script defer src="{% static 'js/external/handlebars.min.js' %}"></script>
+    <script defer src="{% static 'js/app.js' %}" type="module"></script>
+  </body>
+</html>

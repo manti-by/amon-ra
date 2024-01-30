@@ -2,37 +2,37 @@ version: '3.3'
 services:
 
   redis:
-    container_name: helios-redis
+    container_name: amon-ra-redis
     image: redis:latest
     restart: always
 
   postgres:
-    container_name: helios-postgres
+    container_name: amon-ra-postgres
     image: postgres:latest
     restart: always
     environment:
-      - POSTGRES_DB=helios
-      - POSTGRES_USER=helios
-      - POSTGRES_PASSWORD=helios
+      - POSTGRES_DB=amon-ra
+      - POSTGRES_USER=amon-ra
+      - POSTGRES_PASSWORD=amon-ra
 
   django:
-    container_name: helios-django
-    image: mantiby/helios:latest
+    container_name: amon-ra-django
+    image: mantiby/amon-ra:latest
     restart: always
     ports:
       - 8101:8101
     volumes:
-      - /home/manti/www/helios/:/srv/helios/src/
-      - /mnt/nostromo/www/helios/static/:/var/lib/helios/static/
-      - /mnt/nostromo/www/helios/media/:/var/lib/helios/media/
-      - /mnt/nostromo/www/helios/data/:/var/lib/helios/data/
-      - /mnt/nostromo/www/helios/log/:/var/log/helios/
+      - /home/manti/www/amon-ra/:/srv/amon-ra/src/
+      - /mnt/nostromo/www/amon-ra/static/:/var/lib/amon-ra/static/
+      - /mnt/nostromo/www/amon-ra/media/:/var/lib/amon-ra/media/
+      - /mnt/nostromo/www/amon-ra/data/:/var/lib/amon-ra/data/
+      - /mnt/nostromo/www/amon-ra/log/:/var/log/amon-ra/
     depends_on:
       - postgres
       - redis
     environment:
-      - DJANGO_SETTINGS_MODULE=helios.settings.prod
+      - DJANGO_SETTINGS_MODULE=amon-ra.settings.prod
       - POSTGRES_HOST=postgres
       - REDIS_HOST=redis
     command: |
-      gunicorn helios.wsgi:application --bind 0.0.0.0:8101 --workers 2 --log-file /var/log/helios/wsgi.log
+      gunicorn amon-ra.wsgi:application --bind 0.0.0.0:8101 --workers 2 --log-file /var/log/amon-ra/wsgi.log

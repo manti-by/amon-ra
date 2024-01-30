@@ -1,20 +1,20 @@
 bash:
-	docker exec -it helios-django bash
+	docker exec -it amon-ra-django bash
 
 build:
-	docker build -t mantiby/helios:latest .
+	docker build -t mantiby/amon-ra:latest .
 
 migrate:
-	docker exec -it helios-django python manage.py migrate
+	docker exec -it amon-ra-django python manage.py migrate
 
 static:
-	docker exec -it helios-django python manage.py collectstatic --no-input
+	docker exec -it amon-ra-django python manage.py collectstatic --no-input
 
 messages:
 	python manage.py makemessages -a
 
 test:
-	pytest helios/
+	pytest amon_ra/
 
 check:
 	git add .
