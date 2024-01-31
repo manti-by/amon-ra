@@ -20,6 +20,10 @@ check:
 	git add .
 	pre-commit run
 
+django-check:
+	./manage.py makemigrations --dry-run --check --verbosity=3 --settings=amon_ra.settings.sqlite
+	./manage.py check --fail-level WARNING --settings=amon_ra.settings.sqlite
+
 pip:
 	pip install -r requirements.txt
 
