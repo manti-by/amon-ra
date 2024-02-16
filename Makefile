@@ -27,5 +27,6 @@ django-check:
 pip:
 	pip install -r requirements.txt
 
-update-requirements:
+update:
 	pcu requirements.txt -u
+	pre-commit autoupdate

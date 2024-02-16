@@ -1,7 +1,7 @@
 Amon-ra server core application
 ==========================================================
 
-Web dashboard for [ODIN](https://github.com/manti-by/odin) server.
+Web dashboard for [Amon-Ra](https://github.com/manti-by/amon-ra) server.
 
 
 Setup:

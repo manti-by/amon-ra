@@ -1,4 +1,4 @@
-django==5.0.1
+django==5.0.2
 djangorestframework==3.14.0
 psycopg2-binary==2.9.9
 redis==5.0.1
@@ -8,11 +8,11 @@ gunicorn==21.2.0
 pywebpush==1.14.1
 
 pytest>=8.0.0
-pytest-django>=4.7.0
+pytest-django>=4.8.0
 factory-boy>=3.3.0
 
-pre_commit>=3.6.0
-black>=24.1.1
+pre_commit>=3.6.1
+black>=24.2.0
 prospector>=1.10.3
 pyupgrade>=3.15.0
-pip-check-updates>=0.23.0
+pip-check-updates>=0.23.1
