@@ -28,7 +28,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = ("*",)
 
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -44,6 +43,7 @@ INSTALLED_APPS = [
     "amon_ra.apps.core",
     "amon_ra.apps.sensors",
     "amon_ra.apps.subscriptions",
+    "amon_ra.apps.users",
 ]
 
 MIDDLEWARE = [
@@ -78,7 +78,7 @@ WSGI_APPLICATION = "amon_ra.wsgi.application"
 
 BASE_URL = "http://127.0.0.1:8000"
 
-SITE_ID = 1
+AUTH_USER_MODEL = "users.User"
 
 
 # Database

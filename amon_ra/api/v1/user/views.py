@@ -16,7 +16,7 @@ class LoginView(CreateAPIView):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         user = authenticate(
-            username=serializer.validated_data["email"],
+            email=serializer.validated_data["email"],
             password=serializer.validated_data["password"],
         )
         if user is None:
