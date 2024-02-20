@@ -1,7 +1,8 @@
 from django.conf import settings
-from django.contrib.auth.models import User
 from django.core.management import BaseCommand
 from pywebpush import webpush
+
+from amon_ra.apps.users.models import User
 
 
 class Command(BaseCommand):
