@@ -10,3 +10,5 @@ amon_ra/settings/local.py
 *~
 
 .python-version
+
+bot.token
