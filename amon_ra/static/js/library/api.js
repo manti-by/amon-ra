@@ -2,9 +2,7 @@
 
 export class Api {
   constructor () {
-    if (localStorage.getItem('token')) {
-      this.token = localStorage.getItem('token')
-    }
+    this.token = localStorage.getItem('token')
   }
 
   getSettings (on_success) {
@@ -25,8 +23,32 @@ export class Api {
     })
   }
 
+  getUser (on_success, on_error) {
+    if (!this.isAuthenticated()) {
+      on_error()
+      console.log('Call api.login() first before calling api.getSensors()')
+      return
+    }
+    fetch('/api/v1/users/', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Token ' + this.token
+      },
+      async: true
+    }).then(response => {
+      if (response.status === 200) {
+        response.json().then(data => {
+          on_success(data)
+        })
+        return
+      }
+      console.error('Error loading user data')
+    })
+  }
+
   getSensors (on_success, on_error) {
-    if (!this.token) {
+    if (!this.isAuthenticated()) {
       on_error()
       console.log('Call api.login() first before calling api.getSensors()')
       return
@@ -41,7 +63,7 @@ export class Api {
     }).then(response => {
       if (response.status === 200) {
         response.json().then(data => {
-          on_success(data)
+          on_success(data["results"])
         })
         return
       }
@@ -74,47 +96,10 @@ export class Api {
     })
   }
 
-  saveSubscription (data) {
+  isAuthenticated() {
     if (!this.token) {
-      console.log('Call api.login() first before calling api.getSensors()')
-      return
+      this.token = localStorage.getItem('token')
     }
-
-    fetch('/api/v1/subscriptions/', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: 'Token ' + this.token
-      },
-      body: JSON.stringify(data),
-      async: true
-    }).then(response => {
-      if (response.status >= 400) {
-        console.error("Error saving subscription data")
-      }
-    })
-  }
-
-  deleteSubscription (data, on_success) {
-    if (!this.token) {
-      console.log('Call api.login() first before calling api.getSensors()')
-      return
-    }
-
-    fetch('/api/v1/subscriptions/', {
-      method: 'DELETE',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: 'Token ' + this.token
-      },
-      body: JSON.stringify(data),
-      async: true
-    }).then(response => {
-      if (response.status >= 400) {
-        console.error("Error saving subscription data")
-        return
-      }
-      on_success()
-    })
+    return !!this.token
   }
 }

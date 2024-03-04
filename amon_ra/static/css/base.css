@@ -72,8 +72,13 @@ button[type=submit] {
   position: relative;
 }
 
-.container {
+.container,
+.container-wide {
   margin: 0 auto;
   padding: 0 1rem;
   max-width: 600px;
+}
+
+.container-wide {
+  max-width: 1200px;
 }

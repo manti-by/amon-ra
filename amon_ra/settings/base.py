@@ -35,7 +35,6 @@ INSTALLED_APPS = [
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
-    "django.contrib.sites",
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "rest_framework",
@@ -204,8 +203,10 @@ REST_FRAMEWORK = {
 
 DEFAULT_AUTO_FIELD = "django.db.models.AutoField"
 
-# Push Notifications
-# https://codelabs.developers.google.com/codelabs/push-notifications/
 
-PUSH_PUBLIC_KEY = os.getenv("PUSH_PUBLIC_KEY", None)
-PUSH_PRIVATE_KEY = os.getenv("PUSH_PRIVATE_KEY", None)
+# Telegram bot settings
+
+BOT_TOKEN = None
+if (BASE_DIR.parent / "bot.token").is_file():
+    with open(BASE_DIR.parent / "bot.token") as file:
+        BOT_TOKEN = file.read().strip()

@@ -1,11 +1,18 @@
 from django.contrib.auth import authenticate
 from rest_framework import status
 from rest_framework.authtoken.models import Token
-from rest_framework.generics import CreateAPIView
+from rest_framework.generics import RetrieveAPIView, CreateAPIView
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 
-from amon_ra.api.v1.user.serializers import LoginSerializer
+from amon_ra.api.v1.user.serializers import UserSerializer, LoginSerializer
+
+
+class UserView(RetrieveAPIView):
+    serializer_class = UserSerializer
+
+    def get_object(self):
+        return self.request.user
 
 
 class LoginView(CreateAPIView):

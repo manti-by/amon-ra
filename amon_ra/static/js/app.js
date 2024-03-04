@@ -1,6 +1,6 @@
 import { Api } from './library/api.js'
 import { _ } from './library/translate.js'
-import { registerHandlebarsHelpers, urlB64ToUint8Array } from './library/utils.js'
+import { registerHandlebarsHelpers } from './library/utils.js'
 
 import { CenteredWidget } from './widgets/centered.js'
 import { LoaderWidget } from './widgets/loader.js'
@@ -11,9 +11,9 @@ class App {
   constructor (api) {
     this.api = api
 
-    if (localStorage.getItem('sensors')) {
-      this.sensors = localStorage.getItem('sensors')
-    }
+    this.user = null
+    this.settings = null
+    this.sensors = null
 
     this.container = document.getElementById('container')
 
@@ -21,23 +21,17 @@ class App {
     this.centered = new CenteredWidget()
 
     this.init()
+    this.main()
   }
 
   init () {
     this.api.getSettings((data) => {
       this.settings = data
 
-      if ("serviceWorker" in navigator && "PushManager" in window) {
-        navigator.serviceWorker.register("/static/js/worker.js").then((registration) => {
-          this.registration = registration
+      if ("serviceWorker" in navigator) {
+        navigator.serviceWorker.register("/static/js/worker.js").then(() => {
           navigator.serviceWorker.ready.then((worker) => {
             worker.sync.register("syncdata")
-          })
-          registration.pushManager.getSubscription().then((subscription) => {
-            if (subscription) {
-              this.subscription = subscription
-            }
-            this.main()
           })
         }).catch((error) => {
           console.log(error)
@@ -46,9 +40,9 @@ class App {
     })
   }
 
-  main() {
-    if (this.api.token) {
-      if (this.sensors) {
+  main () {
+    if (this.api.isAuthenticated()) {
+      if (this.user && this.sensors) {
         this.renderDashboard()
       } else {
         this.update()
@@ -57,50 +51,17 @@ class App {
       this.renderLogin()
     }
     this.loader.hide()
-
-    this.checkMessages()
-  }
-
-  createSubscription() {
-    if (!this.registration) {
-      console.log("No Service Worker is registered")
-      return
-    }
-
-    Notification.requestPermission().then((result) => {
-      if (result !== "granted") {
-        console.log("We weren't granted permission.")
-        return
-      }
-
-      this.registration.pushManager.subscribe({
-        userVisibleOnly: true,
-        applicationServerKey: urlB64ToUint8Array(this.settings["push_public_key"])
-      }).then((subscription) => {
-        this.saveSubscription(subscription)
-      }).catch((error) => {
-        console.log(error)
-      })
-    })
-  }
-
-  saveSubscription (subscription) {
-    this.subscription = subscription
-    this.api.saveSubscription(subscription)
-    this.renderDashboard()
-  }
-
-  deleteSubscription () {
-    this.api.deleteSubscription(this.subscription, () => {
-      this.subscription = null
-      this.renderDashboard()
-    })
   }
 
   update () {
-    this.api.getSensors((data) => {
-      this.sensors = data
-      this.renderDashboard()
+    this.api.getUser((data) => {
+      this.user = data
+      this.api.getSensors((data) => {
+        this.sensors = data
+        this.renderDashboard()
+      }, () => {
+        this.renderLogin()
+      })
     }, () => {
       this.renderLogin()
     })
@@ -113,23 +74,7 @@ class App {
   }
 
   renderDashboard () {
-    this.render("t-dashboard", { profile: this.sensors, isSubscribed: !!this.subscription })
-
-    if (this.subscription) {
-      document.getElementById("unsubscribe").onclick = event => {
-        event.preventDefault()
-        this.subscription.unsubscribe().then(() => {
-          this.deleteSubscription()
-        }).catch((error) => {
-          console.log(error)
-        })
-      }
-    } else {
-      document.getElementById("subscribe").onclick = event => {
-        event.preventDefault()
-        this.createSubscription()
-      }
-    }
+    this.render("t-dashboard", { sensors: this.sensors})
   }
 
   renderLogin () {
@@ -152,18 +97,6 @@ class App {
       }, () => {
         alert(_("Can't login with provided email and password, please try again with different credentials"))
       })
-    }
-  }
-
-  checkMessages () {
-    if (MESSAGES.length) {
-      let result = ''
-
-      for (let i = 0; i < MESSAGES.length; i++) {
-        result += MESSAGES[i].message + '\n'
-      }
-
-      alert(result)
     }
   }
 }

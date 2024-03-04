@@ -54,3 +54,7 @@
 #dashboard .block {
   padding: .5rem 0;
 }
+
+#telegram {
+  float: right;
+}

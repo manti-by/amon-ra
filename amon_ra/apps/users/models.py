@@ -50,6 +50,9 @@ class User(AbstractBaseUser, PermissionsMixin):
     def __str__(self) -> str:
         return self.email
 
+    def is_telegram_linked(self) -> bool:
+        return hasattr(self, "subscription")
+
     class Meta:
         verbose_name = _("user")
         verbose_name_plural = _("users")

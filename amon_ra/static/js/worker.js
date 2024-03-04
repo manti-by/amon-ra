@@ -1,24 +1,5 @@
 const CACHE = "cache"
 
-self.addEventListener('push', (event) => {
-  const data = event.data.text().split(":");
-  // event.waitUntil(self.registration.showNotification(data[0], {
-  //   body: data[1],
-  //   icon: '/static/img/favicon.png',
-  //   badge: '/static/img/favicon.png'
-  // }))
-
-  const notification = new Notification(data[0], {
-    body: data[1],
-    icon: '/static/img/favicon.png',
-    badge: '/static/img/favicon.png',
-  });
-
-  notification.addEventListener('click', () => {
-      window.open(data[2]);
-  })
-})
-
 self.addEventListener("activate", (event) => {
   const cacheWhitelist = [CACHE]
 

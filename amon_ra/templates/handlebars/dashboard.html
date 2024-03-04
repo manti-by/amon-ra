@@ -1,15 +1,12 @@
 {% verbatim %}
   <script id="t-dashboard" type="text/x-handlebars-template">
     <div id="dashboard">
-      <h3>{{ translate "Dashboard" }}</h3>
-
-
-      <label>{{ translate "Subscription" }}</label>:
-      {{#if isSubscribed}}
-        <button id="unsubscribe">{{ translate "delete" }}</button>
-      {{else}}
-        <button id="subscribe">{{ translate "create" }}</button>
-      {{/if}}
+      <h2>{{translate "Dashboard"}}</h2>
+      <ul id="sensors">
+        {{#each sensors}}
+          <li>{{sensor_id}}: {{temp}}&deg; / {{humidity}}% - {{created_at}}</li>
+        {{/each}}
+      </ul>
     </div>
   </script>
 {% endverbatim %}

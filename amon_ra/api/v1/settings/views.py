@@ -1,8 +1,8 @@
-from django.conf import settings
 from rest_framework.generics import RetrieveAPIView
 from rest_framework.permissions import AllowAny
 
 from amon_ra.api.v1.settings.serializers import SettingsSerializer
+from amon_ra.apps.subscriptions.services import get_telegram_redirect_url
 
 
 class SettingsView(RetrieveAPIView):
@@ -11,5 +11,5 @@ class SettingsView(RetrieveAPIView):
 
     def get_object(self):
         return {
-            "push_public_key": settings.PUSH_PUBLIC_KEY,
+            "telegram_redirect_url": get_telegram_redirect_url(self.request)
         }

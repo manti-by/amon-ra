@@ -1,8 +1,11 @@
 from django.db import IntegrityError
+from django.shortcuts import redirect
 from rest_framework import status
 from rest_framework.generics import CreateAPIView, DestroyAPIView
 from rest_framework.response import Response
 
+from amon_ra.apps.subscriptions.exceptions import TelegramHashIsInvalidException
+from amon_ra.apps.subscriptions.models import TelegramAuthStatus
 from amon_ra.apps.subscriptions.services import (
     create_subscription,
     delete_subscription,
@@ -18,16 +21,18 @@ class SubscriptionView(CreateAPIView, DestroyAPIView):
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
+        response = redirect("index")
         try:
-            create_subscription(user=request.user, **serializer.validated_data)
+            create_subscription(user=request.user, data=serializer.validated_data)
+            response.set_cookie("telegram_auth", TelegramAuthStatus.OK, max_age=None)
+        except TelegramHashIsInvalidException:
+            response.set_cookie("telegram_auth", TelegramAuthStatus.ERROR, max_age=None)
         except IntegrityError:
-            return Response(status=status.HTTP_208_ALREADY_REPORTED)
-        return Response(status=status.HTTP_201_CREATED)
+            response.set_cookie("telegram_auth", TelegramAuthStatus.EXISTS, max_age=None)
+        return response
 
     def destroy(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        delete_subscription(user=request.user, endpoint=serializer.validated_data.get("endpoint"))
+        delete_subscription(user=request.user)
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
