@@ -1,6 +1,6 @@
 import { Api } from './library/api.js'
 import { _ } from './library/translate.js'
-import { registerHandlebarsHelpers } from './library/utils.js'
+import {getCookie, deleteCookie, registerHandlebarsHelpers} from './library/utils.js'
 
 import { CenteredWidget } from './widgets/centered.js'
 import { LoaderWidget } from './widgets/loader.js'
@@ -20,8 +20,23 @@ class App {
     this.loader = new LoaderWidget()
     this.centered = new CenteredWidget()
 
+    this.checkTelegramAuth()
+
     this.init()
     this.main()
+  }
+
+  checkTelegramAuth () {
+    let auth = getCookie("telegram_auth"), uuid = getCookie("telegram_uuid")
+    if (auth === "OK") {
+      this.api.linkTelegram({"uuid": uuid}, () => {
+        deleteCookie("telegram_auth")
+        deleteCookie("telegram_uuid")
+        window.location.reload()
+      })
+    } else {
+      alert("Telegram auth failed")
+    }
   }
 
   init () {
@@ -75,6 +90,9 @@ class App {
 
   renderDashboard () {
     this.render("t-dashboard", { sensors: this.sensors})
+    if (!this.user["is_telegram_linked"]) {
+      document.getElementById("telegram").classList.remove("hidden")
+    }
   }
 
   renderLogin () {

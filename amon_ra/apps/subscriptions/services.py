@@ -10,8 +10,12 @@ from .models import Subscription, Notification
 from ..users.models import User
 
 
-def create_subscription(user: User, **kwargs) -> Subscription:
-    return Subscription.objects.create(user=user, **kwargs)
+def create_subscription(**kwargs) -> Subscription:
+    return Subscription.objects.create(**kwargs)
+
+
+def link_subscription(user: User, uuid: str):
+    Subscription.objects.filter(uuid=uuid, user__isnull=True).update(user=user)
 
 
 def delete_subscription(user: User) -> tuple[int, int]:

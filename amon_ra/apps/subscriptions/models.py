@@ -1,3 +1,4 @@
+import uuid
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
@@ -15,8 +16,15 @@ class Notification(models.Model):
         return f"Notification {self.title}"
 
 
+def generate_subscription_uuid() -> str:
+    return uuid.uuid4().hex
+
+
 class Subscription(models.Model):
-    user = models.OneToOneField("users.User", related_name="subscription", on_delete=models.CASCADE)
+    uuid = models.UUIDField(default=generate_subscription_uuid)
+    user = models.OneToOneField(
+        "users.User", related_name="subscription", on_delete=models.CASCADE, null=True, blank=True
+    )
     data = models.JSONField(default=dict)
     created_at = models.DateTimeField(auto_now_add=True)
 

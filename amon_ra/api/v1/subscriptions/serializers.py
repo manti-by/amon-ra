@@ -4,11 +4,6 @@ import urllib.parse
 from amon_ra.apps.subscriptions.services import check_telegram_data_hash
 
 
-class SubscriptionKeysSerializer(serializers.Serializer):
-    p256dh = serializers.CharField(max_length=255)
-    auth = serializers.CharField(max_length=255)
-
-
 class SubscriptionSerializer(serializers.Serializer):
     id = serializers.CharField(max_length=255)
     username = serializers.CharField(max_length=255)
@@ -17,7 +12,7 @@ class SubscriptionSerializer(serializers.Serializer):
 
     first_name = serializers.CharField(max_length=255, allow_blank=True, required=False)
     last_name = serializers.CharField(max_length=255, allow_blank=True, required=False)
-    photo_url = serializers.CharField(max_length=255,  allow_blank=True, required=False)
+    photo_url = serializers.CharField(max_length=255, allow_blank=True, required=False)
 
     def to_internal_value(self, data: dict):
         data._mutable = True
@@ -30,6 +25,10 @@ class SubscriptionSerializer(serializers.Serializer):
             data_hash = data.pop("hash")
             return check_telegram_data_hash(data=data, data_hash=data_hash, raise_exception=raise_exception)
         return result
+
+
+class SubscriptionLinkSerializer(serializers.Serializer):
+    uuid = serializers.CharField(max_length=32)
 
 
 class NotificationSerializer(serializers.Serializer):
