@@ -37,10 +37,15 @@ def get_telegram_redirect_url(request: HttpRequest) -> str:
     return f"{protocol}://{host}{path}"
 
 
-def check_telegram_data_hash(data: dict, data_hash: str, raise_exception: bool = True) -> bool:
+def get_telegram_data_hash(data: dict) -> str:
     data_string = "\n".join([f"{k}={v}" for k, v in sorted(list(data.items()))]).encode()
     secret = hashlib.sha256(settings.BOT_TOKEN.encode()).digest()
     signature = hmac.new(key=secret, msg=data_string, digestmod=hashlib.sha256)
-    if raise_exception and signature.hexdigest() != data_hash:
+    return signature.hexdigest()
+
+
+def check_telegram_data_hash(data: dict, data_hash: str, raise_exception: bool = True) -> bool:
+    is_hashes_equal = get_telegram_data_hash(data) == data_hash
+    if raise_exception and not is_hashes_equal:
         raise TelegramHashIsInvalidException
-    return signature.hexdigest() == data_hash
+    return is_hashes_equal

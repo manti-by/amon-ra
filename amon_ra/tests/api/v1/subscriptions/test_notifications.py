@@ -5,8 +5,7 @@ from rest_framework.test import APIClient
 import pytest
 
 from amon_ra.apps.subscriptions.models import Notification
-from amon_ra.tests.factories.users import UserFactory
-from amon_ra.tests.factories.subscriptions import SubscriptionDictFactory
+from amon_ra.tests.factories.subscriptions import NotificationDictFactory, SubscriptionFactory
 
 
 @pytest.mark.django_db
@@ -15,7 +14,7 @@ class TestNotificationsAPI:
     def setup_method(self):
         self.client = APIClient()
         self.url = reverse("api:v1:subscriptions:notification")
-        self.user = UserFactory()
+        self.user = SubscriptionFactory().user
 
     def test_anonymous_user(self):
         response = self.client.get(self.url, format="json")
@@ -31,8 +30,8 @@ class TestNotificationsAPI:
     def test_create_notification(self):
         self.client.force_authenticate(self.user)
 
-        self.data = SubscriptionDictFactory()
-        response = self.client.post(self.url, {"title": "Title", "text": "Text"}, format="json")
+        data = NotificationDictFactory()
+        response = self.client.post(self.url, data, format="json")
 
         assert response.status_code == status.HTTP_201_CREATED
         assert Notification.objects.exists()
