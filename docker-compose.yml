@@ -31,7 +31,7 @@ services:
       - postgres
       - redis
     environment:
-      - DJANGO_SETTINGS_MODULE=amon_ra.settings.prod
+      - DJANGO_SETTINGS_MODULE=amon_ra.settings.local
       - POSTGRES_HOST=postgres
       - REDIS_HOST=redis
     command: |
@@ -49,4 +49,4 @@ services:
     environment:
       - DJANGO_HOST=http://django:8101
     command: |
-      python3 amon_ra/bot/main.py
+      python3 -m amon_ra.bot.main
