@@ -31,10 +31,12 @@ services:
       - redis
     environment:
       - DJANGO_SETTINGS_MODULE=amon_ra.settings.local
+      - LOG_LEVEL=WARNING
+      - LOG_HANDLERS=file
       - POSTGRES_HOST=postgres
       - REDIS_HOST=redis
     command: |
-      gunicorn amon_ra.asgi:application --bind 0.0.0.0:8101 --workers 2 --log-file /var/log/amon-ra/wsgi.log
+      gunicorn amon_ra.asgi:application --worker-class uvicorn.workers.UvicornWorker --bind 0.0.0.0:8101 --workers 2 --log-file /var/log/amon-ra/wsgi.log
 
   bot:
     container_name: amon-ra-bot
@@ -43,7 +45,6 @@ services:
     depends_on:
       - django
     volumes:
-      - /home/manti/www/amon-ra/:/srv/amon-ra/src/
       - /mnt/nostromo/www/amon-ra/log/:/var/log/amon-ra/
     environment:
       - DJANGO_HOST=http://django:8101
