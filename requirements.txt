@@ -6,6 +6,7 @@ django-redis==5.4.0
 requests==2.31.0
 gunicorn==21.2.0
 pywebpush==1.14.1
+djcompiler==0.0.5
 
 aiohttp==3.9.3
 python-telegram-bot==20.8

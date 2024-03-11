@@ -7,6 +7,9 @@
 amon_ra/settings/prod.py
 amon_ra/settings/local.py
 
+build/
+cython/
+
 *.pyc
 *~
 

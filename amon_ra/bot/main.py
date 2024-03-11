@@ -1,7 +1,11 @@
+import logging.config
+
 from telegram.ext import ApplicationBuilder, CommandHandler
 
-from amon_ra.bot.settings import BOT_TOKEN
+from amon_ra.bot.settings import BOT_TOKEN, LOGGING
 from amon_ra.bot.services.telegram import start
+
+logging.config.dictConfig(LOGGING)
 
 
 if __name__ == "__main__":

@@ -12,9 +12,12 @@ RUN useradd -m -s /bin/bash -d /home/manti manti && \
   chown -R manti:manti /srv/amon-ra/src/ /var/lib/amon-ra/ /var/log/amon-ra/
 
 # Install any needed packages specified in requirements
-COPY requirements.txt /tmp/requirements.txt
+COPY ../requirements.txt /tmp/requirements.txt
 RUN pip install --trusted-host pypi.org --no-cache-dir --upgrade pip && \
     pip install --trusted-host pypi.org --no-cache-dir -r /tmp/requirements.txt
+
+# Copy source code
+COPY build/ /srv/amon-ra/src/
 
 # Run
 USER manti

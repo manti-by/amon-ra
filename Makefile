@@ -1,8 +1,13 @@
+.PHONY:build
+
 bash:
 	docker exec -it amon-ra-django bash
 
 build:
+	rm -rf build/ cython/
+	djcompiler compile
 	docker build -t mantiby/amon-ra:latest .
+	docker push mantiby/amon-ra:latest
 
 migrate:
 	docker exec -it amon-ra-django python manage.py migrate
