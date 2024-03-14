@@ -34,8 +34,6 @@ class App {
         deleteCookie("telegram_uuid")
         window.location.reload()
       })
-    } else {
-      alert("Telegram auth failed")
     }
   }
 
