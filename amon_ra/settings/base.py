@@ -9,6 +9,7 @@ https://docs.djangoproject.com/en/3.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
+
 import os
 
 from pathlib import Path
@@ -77,9 +78,7 @@ WSGI_APPLICATION = "amon_ra.wsgi.application"
 
 BASE_URL = "https://amon-ra.manti.by"
 
-CSRF_TRUSTED_ORIGINS = (
-    "https://amon-ra.manti.by",
-)
+CSRF_TRUSTED_ORIGINS = ("https://amon-ra.manti.by",)
 
 AUTH_USER_MODEL = "users.User"
 
@@ -199,9 +198,7 @@ REST_FRAMEWORK = {
     "PAGE_SIZE": 15,
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
     "DEFAULT_PERMISSION_CLASSES": ("rest_framework.permissions.IsAuthenticated",),
-    "DEFAULT_AUTHENTICATION_CLASSES": (
-        "rest_framework.authentication.TokenAuthentication",
-    ),
+    "DEFAULT_AUTHENTICATION_CLASSES": ("rest_framework.authentication.TokenAuthentication",),
 }
 
 

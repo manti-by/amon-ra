@@ -10,6 +10,4 @@ class SettingsView(RetrieveAPIView):
     permission_classes = (AllowAny,)
 
     def get_object(self):
-        return {
-            "telegram_redirect_url": get_telegram_redirect_url(self.request)
-        }
+        return {"telegram_redirect_url": get_telegram_redirect_url(self.request)}

@@ -36,7 +36,5 @@ LOGGING = {
             "formatter": "standard",
         },
     },
-    "loggers": {
-        "": {"handlers": LOG_HANDLERS.split(","), "level": LOG_LEVEL, "propagate": True}
-    },
+    "loggers": {"": {"handlers": LOG_HANDLERS.split(","), "level": LOG_LEVEL, "propagate": True}},
 }
