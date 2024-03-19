@@ -75,7 +75,11 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "amon_ra.wsgi.application"
 
-BASE_URL = "http://127.0.0.1:8000"
+BASE_URL = "https://amon-ra.manti.by"
+
+CSRF_TRUSTED_ORIGINS = (
+    "https://amon-ra.manti.by",
+)
 
 AUTH_USER_MODEL = "users.User"
 

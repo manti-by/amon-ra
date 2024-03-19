@@ -1,0 +1,50 @@
+from .base import *  # noqa
+
+DEBUG = False
+
+SECRET_KEY = os.getenv("SECRET_KEY", "insecure-key")
+
+ALLOWED_HOSTS = ("*",)
+
+BASE_URL = "https://amon_ra.manti.by"
+
+STATIC_ROOT = "/var/lib/amon-ra/static/"
+MEDIA_ROOT = "/var/lib/amon-ra/media/"
+
+LOG_LEVEL = os.getenv("LOG_LEVEL", "INFO")
+LOG_HANDLERS = os.getenv("LOG_HANDLERS", "console")
+
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "formatters": {
+        "standard": {
+            "format": "%(asctime)s %(levelname)-8s %(message)s",
+            "datefmt": "%Y-%m-%d %H:%M:%S",
+        }
+    },
+    "handlers": {
+        "console": {
+            "level": "DEBUG",
+            "class": "logging.StreamHandler",
+            "formatter": "standard",
+        },
+        "file": {
+            "level": "WARNING",
+            "class": "logging.FileHandler",
+            "filename": os.getenv("LOG_PATH", "/var/log/amon-ra/django.log"),
+            "formatter": "standard",
+        },
+    },
+    "loggers": {
+        "": {"handlers": LOG_HANDLERS.split(","), "level": LOG_LEVEL, "propagate": True},
+        "django": {
+            "handlers": LOG_HANDLERS.split(","),
+            "level": "WARNING",
+            "propagate": True,
+            "formatter": "simple",
+        },
+        "django.templates": {"handlers": []},
+        "django.db.backends": {"handlers": []},
+    },
+}
