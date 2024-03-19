@@ -15,4 +15,5 @@ cython/
 
 .python-version
 
+database.sql
 bot.token

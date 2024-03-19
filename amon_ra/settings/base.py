@@ -88,9 +88,9 @@ POSTGRES_HOST = os.getenv("POSTGRES_HOST", "localhost")
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": "amon-ra",
-        "USER": "amon-ra",
-        "PASSWORD": "amon-ra",
+        "NAME": "amon_ra",
+        "USER": "amon_ra",
+        "PASSWORD": "amon_ra",
         "HOST": POSTGRES_HOST,
         "PORT": 5432,
     }

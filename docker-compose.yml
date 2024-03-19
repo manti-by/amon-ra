@@ -11,9 +11,9 @@ services:
     image: postgres:latest
     restart: always
     environment:
-      - POSTGRES_DB=amon-ra
-      - POSTGRES_USER=amon-ra
-      - POSTGRES_PASSWORD=amon-ra
+      - POSTGRES_DB=amon_ra
+      - POSTGRES_USER=amon_ra
+      - POSTGRES_PASSWORD=amon_ra
 
   django:
     container_name: amon-ra-django
@@ -22,10 +22,10 @@ services:
     ports:
       - 8101:8101
     volumes:
-      - /mnt/nostromo/www/amon-ra/static/:/var/lib/amon-ra/static/
-      - /mnt/nostromo/www/amon-ra/media/:/var/lib/amon-ra/media/
-      - /mnt/nostromo/www/amon-ra/data/:/var/lib/amon-ra/data/
-      - /mnt/nostromo/www/amon-ra/log/:/var/log/amon-ra/
+      - /mnt/data/www/amon-ra/static/:/var/lib/amon-ra/static/
+      - /mnt/data/www/amon-ra/media/:/var/lib/amon-ra/media/
+      - /mnt/data/www/amon-ra/data/:/var/lib/amon-ra/data/
+      - /mnt/data/www/amon-ra/log/:/var/log/amon-ra/
     depends_on:
       - postgres
       - redis
