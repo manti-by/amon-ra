@@ -17,9 +17,9 @@ jobs:
       postgres:
         image: postgres:latest
         env:
-          POSTGRES_USER: amon-ra
-          POSTGRES_PASSWORD: amon-ra
-          POSTGRES_DB: amon-ra
+          POSTGRES_USER: amon_ra
+          POSTGRES_PASSWORD: amon_ra
+          POSTGRES_DB: amon_ra
         ports:
           - 5432:5432
         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
