@@ -15,10 +15,16 @@ migrate:
 static:
 	docker exec -it amon-ra-django python manage.py collectstatic --no-input
 
+deploy:
+	docker container stop amon-ra-django
+	docker container rm amon-ra-django
+	docker image pull mantiby/amon-ra:latest
+	docker compose up -d
+
 dump:
 	docker exec -it amon-ra-postgres pg_dump -U amon-ra -d amon-ra > database.sql
 
-rerstore:
+restore:
 	docker cp database.sql amon-ra-postgres:/tmp/database.sql
 	docker exec -it amon-ra-postgres psql -U amon_ra amon_ra -f /tmp/database.sql
 
