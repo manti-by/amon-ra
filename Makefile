@@ -15,8 +15,8 @@ static:
 	docker exec -it amon-ra-django python manage.py collectstatic --no-input
 
 deploy:
-	docker container stop amon-ra-django
-	docker container rm amon-ra-django
+	docker container stop amon-ra-django amon-ra-bot
+	docker container rm amon-ra-django amon-ra-bot
 	docker image pull mantiby/amon-ra:latest
 	docker compose up -d
 
