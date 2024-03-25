@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     "rest_framework",
     "rest_framework.authtoken",
     "amon_ra.apps.core",
+    "amon_ra.apps.clients",
     "amon_ra.apps.sensors",
     "amon_ra.apps.subscriptions",
     "amon_ra.apps.users",
@@ -206,6 +207,8 @@ DEFAULT_AUTO_FIELD = "django.db.models.AutoField"
 
 
 # Telegram bot settings
+
+BOT_NAME = os.getenv("BOT_NAME", "amon_ra_test_bot")
 
 BOT_TOKEN = None
 if (BASE_DIR.parent / "bot.token").is_file():

@@ -1,40 +1,79 @@
 import factory.fuzzy
 from factory.django import DjangoModelFactory
 
+from amon_ra.apps.core.services import get_data_hash
 from amon_ra.apps.subscriptions.models import Subscription
-from amon_ra.apps.subscriptions.services import get_telegram_data_hash
+from amon_ra.tests.factories import DEFAULT_CLIENT_KEY, DEFAULT_CLIENT_HASH
 
 
-class SubscriptionDictFactory(factory.DictFactory):
-    id = factory.Faker("first_name")
-    username = factory.Faker("pyint")
-    auth_date = factory.Faker("pyint")
-    first_name = factory.Faker("first_name")
-    last_name = factory.Faker("last_name")
-    photo_url = factory.Faker("image_url")
+class SubscriptionGetDictFactory(factory.DictFactory):
+    key = DEFAULT_CLIENT_KEY
+    chat_id = factory.Faker("pyint")
 
     @factory.lazy_attribute
     def hash(self):
-        return get_telegram_data_hash(
+        return get_data_hash(
             {
-                "id": self.id,
+                "key": self.key,
+                "chat_id": self.chat_id,
+            },
+            DEFAULT_CLIENT_HASH,
+        )
+
+
+class SubscriptionLinkDictFactory(factory.DictFactory):
+    key = DEFAULT_CLIENT_KEY
+    email = factory.Faker("email")
+    chat_id = factory.Faker("pyint")
+    username = factory.Faker("pyint")
+    first_name = factory.Faker("first_name")
+    last_name = factory.Faker("last_name")
+
+    @factory.lazy_attribute
+    def hash(self):
+        return get_data_hash(
+            {
+                "key": self.key,
+                "email": self.email,
+                "chat_id": self.chat_id,
                 "username": self.username,
-                "auth_date": self.auth_date,
                 "first_name": self.first_name,
                 "last_name": self.last_name,
-                "photo_url": self.photo_url,
-            }
+            },
+            DEFAULT_CLIENT_HASH,
         )
+
+
+class SubscriptionUnlinkDictFactory(SubscriptionGetDictFactory): ...
+
+
+class SubscriptionDataDictFactory(factory.DictFactory):
+    chat_id = factory.Faker("pyint")
+    username = factory.Faker("pyint")
+    first_name = factory.Faker("first_name")
+    last_name = factory.Faker("last_name")
 
 
 class SubscriptionFactory(DjangoModelFactory):
     user = factory.SubFactory("amon_ra.tests.factories.users.UserFactory")
-    data = SubscriptionDictFactory()
+    data = SubscriptionDataDictFactory()
 
     class Meta:
         model = Subscription
 
 
 class NotificationDictFactory(factory.DictFactory):
+    key = DEFAULT_CLIENT_KEY
     title = factory.Faker("word")
     text = factory.Faker("paragraph")
+
+    @factory.lazy_attribute
+    def hash(self):
+        return get_data_hash(
+            {
+                "key": self.key,
+                "title": self.title,
+                "text": self.text,
+            },
+            DEFAULT_CLIENT_HASH,
+        )

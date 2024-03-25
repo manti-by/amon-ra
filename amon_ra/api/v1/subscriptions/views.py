@@ -1,60 +1,73 @@
-from django.db import IntegrityError
-from django.shortcuts import redirect
 from rest_framework import status
-from rest_framework.generics import CreateAPIView, RetrieveAPIView
-from rest_framework.permissions import AllowAny
+from rest_framework.generics import CreateAPIView
 from rest_framework.response import Response
 
-from amon_ra.apps.subscriptions.exceptions import TelegramHashIsInvalidException
-from amon_ra.apps.subscriptions.models import TelegramAuthStatus
+from amon_ra.api.permissions import KeyPermission
 from amon_ra.apps.subscriptions.services import (
     create_subscription,
     send_notification,
     create_notification,
-    link_subscription,
+    get_subscription_by_chat_id,
 )
 from amon_ra.api.v1.subscriptions.serializers import (
-    SubscriptionSerializer,
-    NotificationSerializer,
+    SubscriptionGetSerializer,
     SubscriptionLinkSerializer,
+    NotificationSerializer,
+    SubscriptionSerializer,
+    SubscriptionUnlinkSerializer,
 )
+from amon_ra.apps.users.models import User
 
 
-class SubscriptionView(RetrieveAPIView):
-    serializer_class = SubscriptionSerializer
-    permission_classes = (AllowAny,)
+class BaseView(CreateAPIView):
+    permission_classes = (KeyPermission,)
 
-    def retrieve(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.query_params)
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        response = redirect("index")
-        try:
-            subscription = create_subscription(data=serializer.validated_data)
-            response.set_cookie("telegram_auth", TelegramAuthStatus.OK, max_age=None)
-            response.set_cookie("telegram_uuid", subscription.uuid, max_age=None)
-        except TelegramHashIsInvalidException:
-            response.set_cookie("telegram_auth", TelegramAuthStatus.ERROR, max_age=None)
-        except IntegrityError:
-            response.set_cookie("telegram_auth", TelegramAuthStatus.EXISTS, max_age=None)
-        return response
+        return serializer.serialize()
 
 
-class SubscriptionLinkView(CreateAPIView):
+class SubscriptionView(BaseView):
+    serializer_class = SubscriptionGetSerializer
+
+    def create(self, request, *args, **kwargs):
+        data = super().create(request, *args, **kwargs)
+        if subscription := get_subscription_by_chat_id(data["chat_id"], raise_exception=False):
+            serializer = SubscriptionSerializer(subscription)
+            return Response(status=status.HTTP_200_OK, data=serializer.data)
+        return Response(status=status.HTTP_400_BAD_REQUEST)
+
+
+class SubscriptionLinkView(BaseView):
     serializer_class = SubscriptionLinkSerializer
 
     def create(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        link_subscription(user=request.user, **serializer.validated_data)
-        return Response(status=status.HTTP_201_CREATED)
+        data = super().create(request, *args, **kwargs)
+        email = data.pop("email").lower()
+        queryset = User.objects.filter(email__iexact=email)
+        if queryset.exists():
+            create_subscription(user=queryset.last(), data=data)
+            return Response(status=status.HTTP_201_CREATED)
+        return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
-class NotificationView(CreateAPIView):
+class SubscriptionUnlinkView(BaseView):
+    serializer_class = SubscriptionUnlinkSerializer
+
+    def create(self, request, *args, **kwargs):
+        data = super().create(request, *args, **kwargs)
+        if subscription := get_subscription_by_chat_id(data["chat_id"], raise_exception=False):
+            subscription.delete()
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        return Response(status=status.HTTP_400_BAD_REQUEST)
+
+
+class NotificationView(BaseView):
     serializer_class = NotificationSerializer
 
     def create(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        notification = create_notification(**serializer.validated_data)
-        send_notification(user=request.user, notification=notification)
+        data = super().create(request, *args, **kwargs)
+        notification = create_notification(**data)
+        send_notification(notification=notification)
         return Response(status=status.HTTP_201_CREATED)

@@ -19,12 +19,12 @@ class TestSensorsView:
         self.url = reverse("api:v1:sensors:sensors")
         self.user = UserFactory()
 
-    def test_anonymous_user(self):
+    def test_sensors_anonymous_user(self):
         response = self.client.get(self.url, format="json")
         assert response.status_code == status.HTTP_401_UNAUTHORIZED
 
     @pytest.mark.parametrize("method", ["put", "patch", "delete"])
-    def test_not_allowed_methods(self, method):
+    def testt_sensors_not_allowed_methods(self, method):
         self.client.force_authenticate(self.user)
         test_client_callable = getattr(self.client, method)
         response = test_client_callable(self.url, format="json")
@@ -48,7 +48,7 @@ class TestSensorsView:
         assert response.status_code == status.HTTP_200_OK
         assert response.data["count"] == 3
 
-    def test_create_sensor(self):
+    def test_sensors_create(self):
         self.client.force_authenticate(self.user)
 
         self.data = SensorDictFactory()

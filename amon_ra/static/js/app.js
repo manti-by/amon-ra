@@ -1,6 +1,6 @@
 import { Api } from './library/api.js'
 import { _ } from './library/translate.js'
-import {getCookie, deleteCookie, registerHandlebarsHelpers} from './library/utils.js'
+import {registerHandlebarsHelpers} from './library/utils.js'
 
 import { CenteredWidget } from './widgets/centered.js'
 import { LoaderWidget } from './widgets/loader.js'
@@ -15,26 +15,13 @@ class App {
     this.settings = null
     this.sensors = null
 
-    this.container = document.getElementById('container')
+    this.container = document.getElementById("container")
 
     this.loader = new LoaderWidget()
     this.centered = new CenteredWidget()
 
-    this.checkTelegramAuth()
-
     this.init()
     this.main()
-  }
-
-  checkTelegramAuth () {
-    let auth = getCookie("telegram_auth"), uuid = getCookie("telegram_uuid")
-    if (auth === "OK") {
-      this.api.linkTelegram({"uuid": uuid}, () => {
-        deleteCookie("telegram_auth")
-        deleteCookie("telegram_uuid")
-        window.location.reload()
-      })
-    }
   }
 
   init () {
@@ -94,18 +81,18 @@ class App {
   }
 
   renderLogin () {
-    this.render('t-login')
+    this.render("t-login")
 
     this.centered.center(
-      document.getElementById('login-form')
+      document.getElementById("login-form")
     )
 
-    document.getElementById('login').onclick = event => {
+    document.getElementById("login").onclick = event => {
       event.preventDefault()
 
       const data = {
-        email: document.getElementById('email').value,
-        password: document.getElementById('password').value
+        email: document.getElementById("email").value,
+        password: document.getElementById("password").value
       }
 
       this.api.login(data, () => {
@@ -117,7 +104,7 @@ class App {
   }
 }
 
-document.addEventListener('DOMContentLoaded', (event) => {
+document.addEventListener("DOMContentLoaded", (event) => {
   registerHandlebarsHelpers()
   window.app = new App(new Api())
 })

@@ -82,29 +82,6 @@ export class Api {
     })
   }
 
-  linkTelegram (data, on_success, on_error) {
-    if (!this.isAuthenticated()) {
-      on_error()
-      console.log('Call api.login() first before calling api.linkTelegram()')
-      return
-    }
-    fetch('/api/v1/subscriptions/link/', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: 'Token ' + this.token
-      },
-      body: JSON.stringify(data),
-      async: true
-    }).then(response => {
-      if (response.status === 201) {
-        on_success()
-        return
-      }
-      on_error()
-    })
-  }
-
   login (data, on_success, on_error) {
     fetch('/api/v1/users/login/', {
       method: 'POST',

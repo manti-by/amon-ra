@@ -1,4 +1,3 @@
-import uuid
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
@@ -16,12 +15,7 @@ class Notification(models.Model):
         return f"Notification {self.title}"
 
 
-def generate_subscription_uuid() -> str:
-    return uuid.uuid4().hex
-
-
 class Subscription(models.Model):
-    uuid = models.UUIDField(default=generate_subscription_uuid)
     user = models.OneToOneField(
         "users.User", related_name="subscription", on_delete=models.CASCADE, null=True, blank=True
     )
@@ -37,9 +31,3 @@ class Subscription(models.Model):
 
     def send_notification(self, notification: Notification):
         pass
-
-
-class TelegramAuthStatus(models.TextChoices):
-    OK = "OK", _("Ok")
-    EXISTS = "EXISTS", _("Exists")
-    ERROR = "ERROR", _("Error")

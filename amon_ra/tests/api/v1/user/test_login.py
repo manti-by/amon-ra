@@ -8,15 +8,23 @@ from amon_ra.tests.factories.users import UserFactory
 
 
 @pytest.mark.django_db
-class TestUserAPI:
+class TestLoginAPI:
 
     def setup_method(self):
         self.client = APIClient()
         self.user = UserFactory()
+        self.url = reverse("api:v1:user:login")
+
+    @pytest.mark.parametrize("method", ["get", "put", "patch", "delete"])
+    def test_login_not_allowed_methods(self, method):
+        self.client.force_authenticate(self.user)
+        test_client_callable = getattr(self.client, method)
+        response = test_client_callable(self.url, format="json")
+        assert response.status_code == status.HTTP_405_METHOD_NOT_ALLOWED
 
     def test_login(self):
         data = {"email": self.user.email, "password": DEFAULT_USER_PASSWORD}
-        response = self.client.post(reverse("api:v1:user:login"), data=data, format="json")
+        response = self.client.post(self.url, data=data, format="json")
         assert response.status_code == status.HTTP_201_CREATED
         assert response.json()["token"]
 

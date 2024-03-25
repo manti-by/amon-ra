@@ -1,8 +1,40 @@
 import aiohttp
-from amon_ra.bot.settings import DJANGO_HOST
+from telegram import Chat, Message
+
+from amon_ra.apps.core.services import get_data_hash
+from amon_ra.bot.settings import DJANGO_HOST, APP_KEY, HASH_KEY
 
 
-async def get_user(chat_id: int) -> dict:
+async def add_data_hash(data: dict) -> dict:
+    data["key"] = APP_KEY
+    return {**data, "hash": get_data_hash(data=data, secret_key=HASH_KEY)}
+
+
+async def get_user(chat: Chat) -> dict:
+    data = await add_data_hash({"chat_id": chat.id})
     async with aiohttp.ClientSession() as session:
-        async with session.get(f"{DJANGO_HOST}/api/v1/bot/user/{chat_id}/") as response:
-            return await response.json()
+        async with session.post(f"{DJANGO_HOST}/api/v1/subscription/", data=data) as response:
+            if response.ok:
+                return await response.json()
+
+
+async def link_user(chat: Chat, message: Message) -> bool:
+    data = await add_data_hash(
+        {
+            "email": message.text,
+            "chat_id": chat.id,
+            "username": chat.username,
+            "first_name": chat.first_name,
+            "last_name": chat.last_name,
+        }
+    )
+    async with aiohttp.ClientSession() as session:
+        async with session.post(f"{DJANGO_HOST}/api/v1/subscription/link/", data=data) as response:
+            return response.ok
+
+
+async def unlink_user(chat: Chat) -> bool:
+    data = await add_data_hash({"chat_id": chat.id})
+    async with aiohttp.ClientSession() as session:
+        async with session.post(f"{DJANGO_HOST}/api/v1/subscription/unlink/", data=data) as response:
+            return response.ok

@@ -1,12 +1,18 @@
 from django.urls import path
 
-from amon_ra.api.v1.subscriptions.views import SubscriptionView, NotificationView, SubscriptionLinkView
+from amon_ra.api.v1.subscriptions.views import (
+    SubscriptionView,
+    NotificationView,
+    SubscriptionLinkView,
+    SubscriptionUnlinkView,
+)
 
-app_name = "subscriptions"
+app_name = "subscription"
 
 
 urlpatterns = [
-    path("", SubscriptionView.as_view(), name="subscriptions"),
-    path("link/", SubscriptionLinkView.as_view(), name="subscription_link"),
+    path("", SubscriptionView.as_view(), name="get"),
+    path("link/", SubscriptionLinkView.as_view(), name="link"),
+    path("unlink/", SubscriptionUnlinkView.as_view(), name="unlink"),
     path("notification/", NotificationView.as_view(), name="notification"),
 ]

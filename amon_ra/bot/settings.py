@@ -9,6 +9,9 @@ if (BASE_DIR / "bot.token").is_file():
     with open(BASE_DIR / "bot.token") as file:
         BOT_TOKEN = file.read().strip()
 
+APP_KEY = os.getenv("APP_KEY", "app-key")
+HASH_KEY = os.getenv("HASH_KEY", "hash-key")
+
 DJANGO_HOST = os.getenv("DJANGO_HOST", "http://localhost:8000")
 
 LOG_LEVEL = os.getenv("LOG_LEVEL", "INFO")
@@ -19,7 +22,7 @@ LOGGING = {
     "disable_existing_loggers": False,
     "formatters": {
         "standard": {
-            "format": "%(asctime)s %(levelname)-8s %(message)s",
+            "format": "%(asctime)s %(name)s %(pathname)s:%(lineno)d %(levelname)-8s %(message)s",
             "datefmt": "%Y-%m-%d %H:%M:%S",
         }
     },

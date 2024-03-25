@@ -1,36 +1,61 @@
 from rest_framework import serializers
-import urllib.parse
 
-from amon_ra.apps.subscriptions.services import check_telegram_data_hash
+from amon_ra.apps.core.services import check_data_hash
+from amon_ra.apps.subscriptions.models import Subscription
 
 
 class SubscriptionSerializer(serializers.Serializer):
-    id = serializers.CharField(max_length=255)
-    username = serializers.CharField(max_length=255)
-    auth_date = serializers.CharField(max_length=255)
-    hash = serializers.CharField(max_length=255)
+    chat_id = serializers.IntegerField(source="data.chat_id")
+    username = serializers.SerializerMethodField()
 
-    first_name = serializers.CharField(max_length=255, allow_blank=True, required=False)
-    last_name = serializers.CharField(max_length=255, allow_blank=True, required=False)
-    photo_url = serializers.CharField(max_length=255, allow_blank=True, required=False)
+    @staticmethod
+    def get_username(obj: Subscription) -> str:
+        username = (obj.data.get("first_name"), obj.data.get("last_name"))
+        if any(username):
+            return " ".join(filter(lambda x: x, username))
+        return obj.data.get("username")
 
-    def to_internal_value(self, data: dict):
-        data._mutable = True
-        data["photo_url"] = urllib.parse.unquote(data["photo_url"])
-        return super().to_internal_value(data)
+
+class HashedDataSerializer(serializers.Serializer):
+    serialize_fields = None
+    key = serializers.CharField(max_length=255, write_only=True)
+    hash = serializers.CharField(max_length=255, write_only=True)
 
     def is_valid(self, *, raise_exception: bool = False) -> bool:
         if result := super().is_valid(raise_exception=raise_exception):
             data = self.validated_data
-            data_hash = data.pop("hash")
-            return check_telegram_data_hash(data=data, data_hash=data_hash, raise_exception=raise_exception)
+            return check_data_hash(
+                data=data,
+                data_hash=data.pop("hash"),
+                secret_key=str(self.context["request"].api_client.hash),
+                raise_exception=raise_exception,
+            )
         return result
 
+    def serialize(self):
+        if not self.serialize_fields:
+            return self.validated_data
+        return {field: self.validated_data[field] for field in self.serialize_fields}
 
-class SubscriptionLinkSerializer(serializers.Serializer):
-    uuid = serializers.CharField(max_length=32)
+
+class SubscriptionGetSerializer(HashedDataSerializer):
+    serialize_fields = ("chat_id",)
+    chat_id = serializers.IntegerField()
 
 
-class NotificationSerializer(serializers.Serializer):
+class SubscriptionLinkSerializer(HashedDataSerializer):
+    serialize_fields = ("email", "chat_id", "username", "first_name", "last_name")
+    email = serializers.CharField(max_length=255)
+    chat_id = serializers.IntegerField()
+    username = serializers.CharField(max_length=255)
+    first_name = serializers.CharField(max_length=255, allow_blank=True, required=False)
+    last_name = serializers.CharField(max_length=255, allow_blank=True, required=False)
+
+
+class SubscriptionUnlinkSerializer(SubscriptionGetSerializer): ...
+
+
+class NotificationSerializer(HashedDataSerializer):
+    serialize_fields = ("title", "text")
     title = serializers.CharField(max_length=64)
     text = serializers.CharField(max_length=255)
