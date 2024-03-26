@@ -53,7 +53,7 @@ services:
       - DJANGO_HOST=http://django:8101
       - LOG_LEVEL=WARNING
       - LOG_HANDLERS=file
-      - APP_KEY=$AMON_RA_APP_KEY
-      - APP_KEY=$AMON_RA_HASH_KEY
+      - APP_KEY=$APP_KEY
+      - APP_HASH=$APP_HASH
     command: |
       python3 -m amon_ra.bot.main

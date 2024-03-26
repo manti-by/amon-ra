@@ -10,7 +10,7 @@ if (BASE_DIR / "bot.token").is_file():
         BOT_TOKEN = file.read().strip()
 
 APP_KEY = os.getenv("APP_KEY", "app-key")
-HASH_KEY = os.getenv("HASH_KEY", "hash-key")
+APP_HASH = os.getenv("APP_HASH", "hash-key")
 
 DJANGO_HOST = os.getenv("DJANGO_HOST", "http://localhost:8000")
 
