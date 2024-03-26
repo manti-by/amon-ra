@@ -16,9 +16,6 @@ COPY ../requirements.txt /tmp/requirements.txt
 RUN pip install --trusted-host pypi.org --no-cache-dir --upgrade pip && \
     pip install --trusted-host pypi.org --no-cache-dir -r /tmp/requirements.txt
 
-# Copy source code
-COPY build/ /srv/amon-ra/src/
-
 # Run
 USER manti
 WORKDIR /srv/amon-ra/src/

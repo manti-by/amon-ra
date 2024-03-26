@@ -4,8 +4,6 @@ bash:
 	docker exec -it amon-ra-django bash
 
 build:
-	rm -rf build/ cython/
-	djcompiler compile
 	docker build -t mantiby/amon-ra:latest .
 
 migrate:
@@ -17,7 +15,6 @@ static:
 deploy:
 	docker container stop amon-ra-django amon-ra-bot
 	docker container rm amon-ra-django amon-ra-bot
-	docker image pull mantiby/amon-ra:latest
 	docker compose up -d
 
 dump:

@@ -22,6 +22,7 @@ services:
     ports:
       - 8101:8101
     volumes:
+      - ./:/srv/amon-ra/src/
       - /mnt/data/www/amon-ra/static/:/var/lib/amon-ra/static/
       - /mnt/data/www/amon-ra/media/:/var/lib/amon-ra/media/
       - /mnt/data/www/amon-ra/data/:/var/lib/amon-ra/data/
@@ -46,6 +47,7 @@ services:
     depends_on:
       - django
     volumes:
+      - ./:/srv/amon-ra/src/
       - /mnt/nostromo/www/amon-ra/log/:/var/log/amon-ra/
     environment:
       - DJANGO_HOST=http://django:8101
