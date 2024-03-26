@@ -1,8 +1,7 @@
 from rest_framework import status
-from rest_framework.generics import CreateAPIView
 from rest_framework.response import Response
 
-from amon_ra.api.permissions import KeyPermission
+from amon_ra.api.views import HashedDataView
 from amon_ra.apps.subscriptions.services import (
     create_subscription,
     send_notification,
@@ -19,16 +18,7 @@ from amon_ra.api.v1.subscriptions.serializers import (
 from amon_ra.apps.users.models import User
 
 
-class BaseView(CreateAPIView):
-    permission_classes = (KeyPermission,)
-
-    def create(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        return serializer.serialize()
-
-
-class SubscriptionView(BaseView):
+class SubscriptionView(HashedDataView):
     serializer_class = SubscriptionGetSerializer
 
     def create(self, request, *args, **kwargs):
@@ -39,7 +29,7 @@ class SubscriptionView(BaseView):
         return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
-class SubscriptionLinkView(BaseView):
+class SubscriptionLinkView(HashedDataView):
     serializer_class = SubscriptionLinkSerializer
 
     def create(self, request, *args, **kwargs):
@@ -52,7 +42,7 @@ class SubscriptionLinkView(BaseView):
         return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
-class SubscriptionUnlinkView(BaseView):
+class SubscriptionUnlinkView(HashedDataView):
     serializer_class = SubscriptionUnlinkSerializer
 
     def create(self, request, *args, **kwargs):
@@ -63,7 +53,7 @@ class SubscriptionUnlinkView(BaseView):
         return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
-class NotificationView(BaseView):
+class NotificationView(HashedDataView):
     serializer_class = NotificationSerializer
 
     def create(self, request, *args, **kwargs):

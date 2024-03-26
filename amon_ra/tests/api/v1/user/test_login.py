@@ -29,5 +29,5 @@ class TestLoginAPI:
         assert response.json()["token"]
 
         self.client.credentials(HTTP_AUTHORIZATION=f"Token {response.json()['token']}")
-        response = self.client.get(reverse("api:v1:sensors:sensors"), format="json")
+        response = self.client.get(reverse("api:v1:sensors:list"), format="json")
         assert response.status_code == status.HTTP_200_OK

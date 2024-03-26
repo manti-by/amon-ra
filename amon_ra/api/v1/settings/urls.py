@@ -6,5 +6,5 @@ app_name = "settings"
 
 
 urlpatterns = [
-    path("", SettingsView.as_view(), name="settings"),
+    path("", SettingsView.as_view(), name="list"),
 ]
