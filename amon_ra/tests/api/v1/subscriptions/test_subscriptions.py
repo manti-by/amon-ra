@@ -92,6 +92,9 @@ class TestSubscriptionUnlinkAPI:
         assert response.status_code == status.HTTP_204_NO_CONTENT
         assert not Subscription.objects.exists()
 
+        self.app_client.refresh_from_db()
+        assert self.app_client.last_request_at
+
     def test_subscription_unlink__subscription_does_not_exists(self):
         data = SubscriptionUnlinkDictFactory()
         response = self.client.post(self.url, data=data, format="json")

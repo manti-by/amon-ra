@@ -9,6 +9,7 @@ class Client(models.Model):
     name = models.CharField(max_length=255)
     key = models.UUIDField(default=generate_uuid)
     hash = models.UUIDField(default=generate_uuid)
+    last_request_at = models.DateTimeField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
