@@ -6,6 +6,7 @@ from amon_ra.apps.core.services import generate_uuid
 
 class Client(models.Model):
 
+    name = models.CharField(max_length=255)
     key = models.UUIDField(default=generate_uuid)
     hash = models.UUIDField(default=generate_uuid)
     created_at = models.DateTimeField(auto_now_add=True)
