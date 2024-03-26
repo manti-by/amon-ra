@@ -48,7 +48,7 @@ services:
       - django
     volumes:
       - ./:/srv/amon-ra/src/
-      - /mnt/nostromo/www/amon-ra/log/:/var/log/amon-ra/
+      - /mnt/data/www/amon-ra/log/:/var/log/amon-ra/
     environment:
       - DJANGO_HOST=http://django:8101
       - LOG_LEVEL=WARNING
