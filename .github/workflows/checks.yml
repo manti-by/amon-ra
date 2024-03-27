@@ -66,4 +66,3 @@ jobs:
       - name: Build docker image
         run: |
           docker build -t mantiby/amon-ra:latest .
-          docker push mantiby/amon-ra:latest

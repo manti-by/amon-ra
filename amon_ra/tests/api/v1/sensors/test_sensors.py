@@ -59,3 +59,9 @@ class TestSensorsView:
         assert Decimal(response.data["temp"]) == self.data["temp"]
         assert Decimal(response.data["humidity"]) == self.data["humidity"]
         assert Sensor.objects.exists()
+
+    def test_sensors__create__invalid_hash(self):
+        self.data = SensorDictFactory()
+        self.data["hash"] = "invalid-hash"
+        response = self.client.post(reverse("api:v1:sensors:create"), self.data, format="json")
+        assert response.status_code == status.HTTP_400_BAD_REQUEST

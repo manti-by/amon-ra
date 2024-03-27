@@ -14,4 +14,3 @@ app.add_handler(CommandHandler("link", link))
 app.add_handler(CommandHandler("unlink", unlink))
 app.add_handler(MessageHandler(~filters.COMMAND, message))
 app.run_polling()
-

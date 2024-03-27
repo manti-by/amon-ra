@@ -6,6 +6,7 @@ django-redis==5.4.0
 requests==2.31.0
 gunicorn==21.2.0
 uvicorn[standard]==0.29.0
+pytz==2024.1
 
 aiohttp==3.9.3
 python-telegram-bot==21.0.1
