@@ -17,3 +17,5 @@ cython/
 
 database.sql
 bot.token
+
+.env
