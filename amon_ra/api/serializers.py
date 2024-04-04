@@ -14,7 +14,7 @@ class HashedDataSerializer(serializers.Serializer):
             return check_data_hash(
                 data=data,
                 data_hash=data.pop("hash"),
-                secret_key=str(self.context["request"].api_client.hash),
+                secret_key=str(self.context["request"].client.hash),
                 raise_exception=raise_exception,
             )
         return result

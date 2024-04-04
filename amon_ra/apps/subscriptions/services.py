@@ -1,4 +1,5 @@
 from .models import Subscription, Notification
+from ..clients.models import Client
 from ..users.models import User
 
 
@@ -18,8 +19,8 @@ def get_subscription_by_chat_id(chat_id: int, raise_exception: bool = True) -> S
             raise e
 
 
-def create_notification(title: str, text: str) -> Notification:
-    return Notification.objects.create(title=title, text=text)
+def create_notification(client: Client, title: str, text: str) -> Notification:
+    return Notification.objects.create(client=client, title=title, text=text)
 
 
 def send_notification(notification: Notification):

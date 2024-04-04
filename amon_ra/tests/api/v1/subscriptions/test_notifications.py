@@ -1,3 +1,5 @@
+from unittest.mock import patch
+
 from rest_framework import status
 from rest_framework.reverse import reverse
 from rest_framework.test import APIClient
@@ -6,7 +8,7 @@ import pytest
 
 from amon_ra.apps.subscriptions.models import Notification
 from amon_ra.tests.factories.client import ClientFactory
-from amon_ra.tests.factories.subscriptions import NotificationDictFactory
+from amon_ra.tests.factories.subscriptions import NotificationDictFactory, SubscriptionFactory
 
 
 @pytest.mark.django_db
@@ -17,10 +19,13 @@ class TestNotificationsAPI:
         self.app_client = ClientFactory()
         self.url = reverse("api:v1:subscription:notification")
 
-    def test_notifications_create(self):
+    @patch("amon_ra.bot.services.message.Bot.send_message")
+    def test_notifications_create(self, send_message_mock):
+        SubscriptionFactory()
         response = self.client.post(self.url, data=NotificationDictFactory(), format="json")
         assert response.status_code == status.HTTP_201_CREATED
-        assert Notification.objects.exists()
+        assert Notification.objects.filter(client=self.app_client).exists()
+        assert send_message_mock.called
 
     def test_subscription_unlink__unauthorized(self):
         response = self.client.get(self.url, format="json")

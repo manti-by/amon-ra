@@ -1,7 +1,7 @@
 from telegram import Update, BotCommand
 from telegram.ext import ContextTypes, Application
 
-from amon_ra.bot.services.django import get_user, link_user, unlink_user
+from ..services.django import get_user, link_user, unlink_user
 
 
 async def post_init(application: Application) -> None:

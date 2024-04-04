@@ -58,6 +58,6 @@ class NotificationView(HashedDataView):
 
     def create(self, request, *args, **kwargs):
         data = super().create(request, *args, **kwargs)
-        notification = create_notification(**data)
+        notification = create_notification(client=request.client, **data)
         send_notification(notification=notification)
         return Response(status=status.HTTP_201_CREATED)
