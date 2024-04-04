@@ -6,7 +6,7 @@ from rest_framework.test import APIClient
 
 import pytest
 
-from amon_ra.apps.subscriptions.models import Notification
+from amon_ra.apps.subscriptions.models import Notification, SubscriptionNotification
 from amon_ra.tests.factories.client import ClientFactory
 from amon_ra.tests.factories.subscriptions import NotificationDictFactory, SubscriptionFactory
 
@@ -21,10 +21,11 @@ class TestNotificationsAPI:
 
     @patch("amon_ra.bot.services.message.Bot.send_message")
     def test_notifications_create(self, send_message_mock):
-        SubscriptionFactory()
+        subscription = SubscriptionFactory()
         response = self.client.post(self.url, data=NotificationDictFactory(), format="json")
         assert response.status_code == status.HTTP_201_CREATED
         assert Notification.objects.filter(client=self.app_client).exists()
+        assert SubscriptionNotification.objects.filter(subscription=subscription).exists()
         assert send_message_mock.called
 
     def test_subscription_unlink__unauthorized(self):

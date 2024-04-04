@@ -19,7 +19,7 @@ class Notification(models.Model):
         verbose_name_plural = _("notifications")
 
     def __str__(self):
-        return f"Notification {self.title}"
+        return f"Notification #{self.id} from {self.client.name}"
 
 
 class Subscription(models.Model):
@@ -38,7 +38,23 @@ class Subscription(models.Model):
 
     @async_to_sync
     async def send_notification(self, notification: Notification) -> Message:
-        return await send_message(
+        result = await send_message(
             chat_id=self.data["chat_id"],
             text=f"*[{notification.client}] {notification.title}*\n{notification.text}",
         )
+        await SubscriptionNotification.objects.acreate(subscription=self, notification=notification)
+        return result
+
+
+class SubscriptionNotification(models.Model):
+    subscription = models.ForeignKey(Subscription, related_name="notification_logs", on_delete=models.CASCADE)
+    notification = models.ForeignKey(Notification, related_name="notification_logs", on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name=_("Sent at"))
+
+    class Meta:
+        verbose_name = _("subscription notification")
+        verbose_name_plural = _("subscription notifications")
+        unique_together = ("subscription", "notification")
+
+    def __str__(self):
+        return f"{self.subscription} - {self.notification}"
