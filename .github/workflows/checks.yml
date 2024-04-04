@@ -61,7 +61,7 @@ jobs:
 
       - name: Run Pytest suite
         run: |
-          pytest --create-db --disable-warnings --ds=amon_ra.settings.test amon_ra/
+          pytest --create-db --disable-warnings amon_ra/
 
       - name: Build docker image
         run: |

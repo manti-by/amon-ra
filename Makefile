@@ -28,7 +28,7 @@ messages:
 	python manage.py makemessages -a
 
 test:
-	pytest amon_ra/
+	pytest --create-db --disable-warnings amon_ra/
 
 check:
 	git add .

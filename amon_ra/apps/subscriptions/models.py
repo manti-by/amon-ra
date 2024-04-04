@@ -39,7 +39,7 @@ class Subscription(models.Model):
 
     @async_to_sync
     async def send_notification(self, notification: Notification) -> Message:
-        text = f"[{notification.client.name}]" f"<b>{notification.title}</b><br>" f"{notification.text}"
+        text = f"<b>[{notification.client.name}] {notification.title}</b>\n{notification.text}"
         result = await send_message(chat_id=self.data["chat_id"], text=text, parse_mode=ParseMode.HTML)
         await SubscriptionNotification.objects.acreate(subscription=self, notification=notification)
         return result
