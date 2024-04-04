@@ -2,6 +2,7 @@ from asgiref.sync import async_to_sync
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from telegram import Message
+from telegram.constants import ParseMode
 
 from amon_ra.bot.services.message import send_message
 
@@ -41,6 +42,7 @@ class Subscription(models.Model):
         result = await send_message(
             chat_id=self.data["chat_id"],
             text=f"*[{notification.client}] {notification.title}*\n{notification.text}",
+            parse_mode=ParseMode.MARKDOWN_V2,
         )
         await SubscriptionNotification.objects.acreate(subscription=self, notification=notification)
         return result

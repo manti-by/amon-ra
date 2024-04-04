@@ -3,6 +3,6 @@ from ..settings import BOT_TOKEN
 from telegram import Bot, Message
 
 
-async def send_message(chat_id: int, text: str) -> Message:
+async def send_message(chat_id: int, text: str, *args, **kwargs) -> Message:
     bot = Bot(BOT_TOKEN)
-    return await bot.send_message(chat_id=chat_id, text=text)
+    return await bot.send_message(chat_id=chat_id, text=text, *args, **kwargs)
