@@ -1,5 +1,6 @@
-import pytest
 from django.urls import reverse
+
+import pytest
 from rest_framework import status
 from rest_framework.test import APIClient
 
@@ -9,7 +10,6 @@ from amon_ra.tests.factories.users import UserFactory
 
 @pytest.mark.django_db
 class TestLoginAPI:
-
     def setup_method(self):
         self.client = APIClient()
         self.user = UserFactory()

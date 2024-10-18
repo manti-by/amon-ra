@@ -2,7 +2,8 @@ import aiohttp
 from telegram import Chat, Message
 
 from amon_ra.apps.core.services import get_data_hash
-from ..settings import DJANGO_HOST, AMON_RA_APP_KEY, AMON_RA_HASH_KEY
+
+from ..settings import AMON_RA_APP_KEY, AMON_RA_HASH_KEY, DJANGO_HOST
 
 
 async def add_data_hash(data: dict) -> dict:

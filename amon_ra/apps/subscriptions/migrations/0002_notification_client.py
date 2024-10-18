@@ -5,7 +5,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("clients", "0003_client_last_request_at"),
         ("subscriptions", "0001_initial"),

@@ -1,10 +1,9 @@
 from decimal import Decimal
 
+import pytest
 from rest_framework import status
 from rest_framework.reverse import reverse
 from rest_framework.test import APIClient
-
-import pytest
 
 from amon_ra.apps.sensors.models import Sensor
 from amon_ra.tests.factories.client import ClientFactory
@@ -14,7 +13,6 @@ from amon_ra.tests.factories.users import UserFactory
 
 @pytest.mark.django_db
 class TestSensorsView:
-
     def setup_method(self):
         self.client = APIClient()
         self.app_client = ClientFactory()

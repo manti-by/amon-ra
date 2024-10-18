@@ -39,8 +39,10 @@ django-check:
 	./manage.py check --fail-level WARNING --settings=amon_ra.settings.sqlite
 
 pip:
-	pip install -r requirements.txt
+	uv pip install -r requirements.txt
 
 update:
 	pcu requirements.txt -u
 	pre-commit autoupdate
+
+ci: pip check django-check test

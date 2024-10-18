@@ -2,7 +2,7 @@ import hashlib
 import hmac
 import uuid
 
-from .exceptions import DataHashIsInvalidException
+from .exceptions import DataHashIsInvalidError
 
 
 def get_data_hash(data: dict, secret_key: str) -> str:
@@ -15,7 +15,7 @@ def get_data_hash(data: dict, secret_key: str) -> str:
 def check_data_hash(data: dict, data_hash: str, secret_key: str, raise_exception: bool = True) -> bool:
     is_hashes_equal = get_data_hash(data, secret_key) == data_hash
     if raise_exception and not is_hashes_equal:
-        raise DataHashIsInvalidException
+        raise DataHashIsInvalidError
     return is_hashes_equal
 
 

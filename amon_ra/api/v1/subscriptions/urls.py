@@ -1,11 +1,12 @@
 from django.urls import path
 
 from amon_ra.api.v1.subscriptions.views import (
-    SubscriptionView,
     NotificationView,
     SubscriptionLinkView,
     SubscriptionUnlinkView,
+    SubscriptionView,
 )
+
 
 app_name = "subscription"
 

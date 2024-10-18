@@ -4,7 +4,7 @@ from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
-BOT_TOKEN = None
+BOT_TOKEN = "0000000000:AAAAAAAAAAAAAAAAAAAAAAAA-AAAA_AAAAA"
 if (BASE_DIR / "bot.token").is_file():
     with open(BASE_DIR / "bot.token") as file:
         BOT_TOKEN = file.read().strip()

@@ -1,6 +1,7 @@
 from django.urls import path
 
-from amon_ra.api.v1.user.views import UserView, LoginView
+from amon_ra.api.v1.user.views import LoginView, UserView
+
 
 app_name = "user"
 

@@ -14,7 +14,7 @@ Author: Alexander Chaika <manti.by@gmail.com>
 
 Source link: [https://github.com/manti-by/amon-ra](https://github.com/manti-by/amon-ra).
 
-Requirements: Python 3.12, PostgreSQL, Redis.
+Requirements: Python 3.12, PostgreSQL, Docker.
 
 ## Setup
 

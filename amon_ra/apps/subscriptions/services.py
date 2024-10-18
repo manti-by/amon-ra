@@ -1,6 +1,6 @@
-from .models import Subscription, Notification
 from ..clients.models import Client
 from ..users.models import User
+from .models import Notification, Subscription
 
 
 def create_subscription(**kwargs) -> Subscription:

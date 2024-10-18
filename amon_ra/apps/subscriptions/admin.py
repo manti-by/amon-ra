@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Subscription, Notification, SubscriptionNotification
+from .models import Notification, Subscription, SubscriptionNotification
 
 
 class SubscriptionNotificationInline(admin.TabularInline):

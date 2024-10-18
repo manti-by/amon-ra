@@ -1,10 +1,9 @@
 from unittest.mock import patch
 
+import pytest
 from rest_framework import status
 from rest_framework.reverse import reverse
 from rest_framework.test import APIClient
-
-import pytest
 
 from amon_ra.apps.subscriptions.models import Notification, SubscriptionNotification
 from amon_ra.tests.factories.client import ClientFactory
@@ -13,7 +12,6 @@ from amon_ra.tests.factories.subscriptions import NotificationDictFactory, Subsc
 
 @pytest.mark.django_db
 class TestNotificationsAPI:
-
     def setup_method(self):
         self.client = APIClient()
         self.app_client = ClientFactory()

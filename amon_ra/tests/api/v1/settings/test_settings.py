@@ -1,12 +1,10 @@
+import pytest
 from rest_framework import status
 from rest_framework.reverse import reverse
 from rest_framework.test import APIClient
 
-import pytest
-
 
 class TestSettingsView:
-
     def setup_method(self):
         self.client = APIClient()
         self.url = reverse("api:v1:settings:list")

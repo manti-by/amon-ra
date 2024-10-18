@@ -1,15 +1,14 @@
+import pytest
 from rest_framework import status
 from rest_framework.reverse import reverse
 from rest_framework.test import APIClient
 
-import pytest
-
 from amon_ra.apps.subscriptions.models import Subscription
 from amon_ra.tests.factories.client import ClientFactory
 from amon_ra.tests.factories.subscriptions import (
-    SubscriptionLinkDictFactory,
     SubscriptionFactory,
     SubscriptionGetDictFactory,
+    SubscriptionLinkDictFactory,
     SubscriptionUnlinkDictFactory,
 )
 from amon_ra.tests.factories.users import UserFactory
@@ -17,7 +16,6 @@ from amon_ra.tests.factories.users import UserFactory
 
 @pytest.mark.django_db
 class TestSubscriptionAPI:
-
     def setup_method(self):
         self.client = APIClient()
         self.app_client = ClientFactory()
@@ -47,7 +45,6 @@ class TestSubscriptionAPI:
 
 @pytest.mark.django_db
 class TestSubscriptionLinkAPI:
-
     def setup_method(self):
         self.client = APIClient()
         self.app_client = ClientFactory()
@@ -79,7 +76,6 @@ class TestSubscriptionLinkAPI:
 
 @pytest.mark.django_db
 class TestSubscriptionUnlinkAPI:
-
     def setup_method(self):
         self.client = APIClient()
         self.app_client = ClientFactory()

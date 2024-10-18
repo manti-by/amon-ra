@@ -1,6 +1,7 @@
 from django.urls import path
 
-from amon_ra.api.v1.sensors.views import SensorsView, SensorsCreateView
+from amon_ra.api.v1.sensors.views import SensorsCreateView, SensorsView
+
 
 app_name = "sensors"
 

@@ -6,6 +6,7 @@ from django.urls import include, path
 
 from amon_ra.apps.core.views import index
 
+
 urlpatterns = [
     path("", index, name="index"),
     path("api/", include("amon_ra.api.urls")),

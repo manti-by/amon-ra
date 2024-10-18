@@ -1,5 +1,5 @@
-from telegram import Update, BotCommand
-from telegram.ext import ContextTypes, Application
+from telegram import BotCommand, Update
+from telegram.ext import Application, ContextTypes
 
 from ..services.django import get_user, link_user, unlink_user
 

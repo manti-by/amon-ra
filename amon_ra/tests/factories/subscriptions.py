@@ -3,7 +3,7 @@ from factory.django import DjangoModelFactory
 
 from amon_ra.apps.core.services import get_data_hash
 from amon_ra.apps.subscriptions.models import Subscription
-from amon_ra.tests.factories import DEFAULT_CLIENT_KEY, DEFAULT_CLIENT_HASH
+from amon_ra.tests.factories import DEFAULT_CLIENT_HASH, DEFAULT_CLIENT_KEY
 
 
 class SubscriptionGetDictFactory(factory.DictFactory):

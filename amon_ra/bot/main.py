@@ -2,8 +2,9 @@ import logging.config
 
 from telegram.ext import ApplicationBuilder, CommandHandler, MessageHandler, filters
 
+from amon_ra.bot.services.telegram import link, message, post_init, start, unlink
 from amon_ra.bot.settings import BOT_TOKEN, LOGGING
-from amon_ra.bot.services.telegram import post_init, start, link, unlink, message
+
 
 logging.config.dictConfig(LOGGING)
 

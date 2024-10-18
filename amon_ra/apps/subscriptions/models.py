@@ -1,6 +1,7 @@
-from asgiref.sync import async_to_sync
 from django.db import models
 from django.utils.translation import gettext_lazy as _
+
+from asgiref.sync import async_to_sync
 from telegram import Message
 from telegram.constants import ParseMode
 

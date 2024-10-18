@@ -12,7 +12,7 @@ class UserManager(BaseUserManager):
     def create_user(
         self,
         email,
-        password: str = None,
+        password: str | None = None,
         is_staff: bool = False,
         is_superuser: bool = False,
     ):
